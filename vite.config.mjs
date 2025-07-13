@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'node:path'
 import autoprefixer from 'autoprefixer'
+import fs from 'fs'
 
 export default defineConfig(() => {
   return {
@@ -44,6 +45,11 @@ export default defineConfig(() => {
       proxy: {
         // https://vitejs.dev/config/server-options.html
       },
+      allowedHosts:["ant-needed-apparently.ngrok-free.app"],
+      // https: {
+      // key: fs.readFileSync('./localhost-key.pem'),
+      // cert: fs.readFileSync('./localhost.pem')
+      // },
     },
   }
 })
