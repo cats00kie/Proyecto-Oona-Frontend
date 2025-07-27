@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import classNames from 'classnames'
 import {
   CAvatar,
@@ -53,6 +53,10 @@ import WidgetsBrand from '../widgets/WidgetsBrand'
 import WidgetsDropdown from '../widgets/WidgetsDropdown'
 import MainChart from './MainChart'
 import Login from '../pages/login/Login'
+import { toast } from 'react-toastify'
+import { data } from 'react-router-dom'
+const url = window.location.href;
+const match = url.match(/[?&]code=([^#&]+)/);
 
 const Dashboard = () => {
   const progressExample = [
@@ -176,6 +180,39 @@ const Dashboard = () => {
     },
   ]
 
+  useEffect(() => {
+    if(match){
+    fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
+        method: 'POST',
+				headers: {
+					"Content-Type": "application/json",
+          "Codigo" : match[1]
+				},
+			}).then(response => {
+        if(!response.ok) throw new Error('Error en el POST');
+        return fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
+				headers: {
+					"Content-Type": "application/json",
+				},
+      });
+      }).then((r) => r.json())
+				.then((data) => {
+          console.log("RESPUESTA DE API: ",data);
+        }).then(response => {
+        return fetch("http://localhost:8085/productos?test="+crypto.randomUUID(), {
+				headers: {
+					"Content-Type": "application/json",
+				},
+      });
+      }).then((r) => r.json())
+				.then((data) => {
+          console.log("RESPUESTA DE API: ",data);
+        })
+    }});
+
+
+    
+   
   return (
     <>
       <CCard className="mb-4">

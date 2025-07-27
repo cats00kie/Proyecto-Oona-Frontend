@@ -23,6 +23,7 @@ import {
   cilMenu,
   cilMoon,
   cilSun,
+  cilUser,
 } from '@coreui/icons'
 
 import { AppBreadcrumb } from './index'
@@ -128,11 +129,12 @@ const AppHeader = () => {
           <li className="nav-item py-1">
             <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
           </li>
-          <AppHeaderDropdown />
+          <CNavItem>
+            <CNavLink href="https://auth.mercadolibre.com.uy/authorization?response_type=code&client_id=6568777871031299&redirect_uri=https://ant-needed-apparently.ngrok-free.app/">
+              <CIcon icon={cilUser} size="lg" />
+            </CNavLink>
+          </CNavItem>
         </CHeaderNav>
-      </CContainer>
-      <CContainer className="px-4" fluid>
-        <AppBreadcrumb />
       </CContainer>
     </CHeader>
   )

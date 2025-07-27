@@ -45,7 +45,7 @@ export default defineConfig(() => {
       proxy: {
         // https://vitejs.dev/config/server-options.html
       },
-      allowedHosts:["ant-needed-apparently.ngrok-free.app"],
+      allowedHosts:["ant-needed-apparently.ngrok-free.app", "trivially-pet-dog.ngrok-free.app"],
       // https: {
       // key: fs.readFileSync('./localhost-key.pem'),
       // cert: fs.readFileSync('./localhost.pem')
