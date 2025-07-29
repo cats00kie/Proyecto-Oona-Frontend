@@ -11,19 +11,5 @@ import { Flip, ToastContainer } from "react-toastify";
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
     <App />
-  </Provider>,
-  <ToastContainer
-				position="bottom-right"
-				autoClose={2500}
-				hideProgressBar
-				limit={5}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme="dark"
-				transition={Flip}
-			/>
+  </Provider>
 )

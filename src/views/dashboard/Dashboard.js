@@ -189,7 +189,7 @@ const Dashboard = () => {
           "Codigo" : match[1]
 				},
 			}).then(response => {
-        if(!response.ok) throw new Error('Error en el POST');
+        if(!response.ok) toast.error("ERROR en el POST");
         return fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
 				headers: {
 					"Content-Type": "application/json",
@@ -198,6 +198,7 @@ const Dashboard = () => {
       }).then((r) => r.json())
 				.then((data) => {
           console.log("RESPUESTA DE API: ",data);
+          toast.success("Conectad@!");
         }).then(response => {
         return fetch("http://localhost:8085/productos?test="+crypto.randomUUID(), {
 				headers: {
@@ -208,7 +209,11 @@ const Dashboard = () => {
 				.then((data) => {
           console.log("RESPUESTA DE API: ",data);
         })
-    }});
+    }
+    else{
+      toast.error("No estás conectad@ a Mercado Libre");
+    }
+  });
 
 
     

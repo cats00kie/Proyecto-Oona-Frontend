@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { Flip, ToastContainer } from 'react-toastify'
 
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
@@ -36,6 +37,7 @@ const App = () => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
+    <>
     <HashRouter>
       <Suspense
         fallback={
@@ -54,8 +56,21 @@ const App = () => {
       </Suspense>
       
     </HashRouter>
-
-    
+    <ToastContainer
+				position="bottom-right"
+				autoClose={2500}
+				hideProgressBar
+				limit={5}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="dark"
+				transition={Flip}
+			/>
+      </>
   )
 }
 
