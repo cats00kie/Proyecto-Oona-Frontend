@@ -2,21 +2,11 @@ import React from 'react'
 import CIcon from '@coreui/icons-react'
 import {
   cilBarChart,
-  cilBell,
-  cilCalculator,
-  cilChartPie,
-  cilCursor,
   cilDescription,
   cilDollar,
   cilDrink,
-  cilDrop,
-  cilExternalLink,
   cilInbox,
-  cilNotes,
-  cilPencil,
-  cilPuzzle,
   cilSpeedometer,
-  cilStar,
   cilTruck,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'

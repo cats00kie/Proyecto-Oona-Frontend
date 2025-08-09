@@ -214,9 +214,6 @@ const Dashboard = () => {
       toast.error("No estás conectad@ a Mercado Libre");
     }
   });
-
-
-    
    
   return (
     <>
