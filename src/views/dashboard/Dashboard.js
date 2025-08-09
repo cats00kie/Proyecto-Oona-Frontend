@@ -189,7 +189,6 @@ const Dashboard = () => {
           "Codigo" : match[1]
 				},
 			}).then(response => {
-
         if(!response.ok) toast.error("ERROR en el POST");
         return fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
 				headers: {
@@ -215,10 +214,6 @@ const Dashboard = () => {
       toast.error("No estás conectad@ a Mercado Libre");
     }
   });
-
-
-
-    
    
   return (
     <>
