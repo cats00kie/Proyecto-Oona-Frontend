@@ -66,8 +66,8 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Docs',
-    href: 'https://coreui.io/react/docs/templates/installation/',
+    name: 'Docs Meli APIs',
+    href: 'https://developers.mercadolibre.com.uy/es_ar/api-docs-es/',
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   },
 ]
