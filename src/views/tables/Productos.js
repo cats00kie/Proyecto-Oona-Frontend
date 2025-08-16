@@ -40,6 +40,9 @@ import {
   cilPeople,
   cilUser,
   cilUserFemale,
+  cilImage,
+  cilDollar,
+  cilFolder,
 } from '@coreui/icons'
 
 import avatar1 from 'src/assets/images/avatars/1.jpg'
@@ -48,6 +51,7 @@ import avatar3 from 'src/assets/images/avatars/3.jpg'
 import avatar4 from 'src/assets/images/avatars/4.jpg'
 import avatar5 from 'src/assets/images/avatars/5.jpg'
 import avatar6 from 'src/assets/images/avatars/6.jpg'
+import react from 'src/assets/images/react.jpg'
 
 import WidgetsBrand from '../widgets/WidgetsBrand'
 import WidgetsDropdown from '../widgets/WidgetsDropdown'
@@ -55,166 +59,71 @@ import MainChart from '../dashboard/MainChart'
 import Login from '../pages/login/Login'
 import { toast } from 'react-toastify'
 import { data } from 'react-router-dom'
-const url = window.location.href;
-const match = url.match(/[?&]code=([^#&]+)/);
+import { LogarithmicScale } from 'chart.js'
+const url = window.location.href
+const match = url.match(/[?&]code=([^#&]+)/)
 
 const Productos = () => {
-//   const progressExample = [
-//     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
-//     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
-//     { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
-//     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
-//     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
-//   ]
-
-  const progressGroupExample1 = [
-    { title: 'Monday', value1: 34, value2: 78 },
-    { title: 'Tuesday', value1: 56, value2: 94 },
-    { title: 'Wednesday', value1: 12, value2: 67 },
-    { title: 'Thursday', value1: 43, value2: 91 },
-    { title: 'Friday', value1: 22, value2: 73 },
-    { title: 'Saturday', value1: 53, value2: 82 },
-    { title: 'Sunday', value1: 9, value2: 69 },
-  ]
-
-  const progressGroupExample2 = [
-    { title: 'Male', icon: cilUser, value: 53 },
-    { title: 'Female', icon: cilUserFemale, value: 43 },
-  ]
-
-  const progressGroupExample3 = [
-    { title: 'Organic Search', icon: cibGoogle, percent: 56, value: '191,235' },
-    { title: 'Facebook', icon: cibFacebook, percent: 15, value: '51,223' },
-    { title: 'Twitter', icon: cibTwitter, percent: 11, value: '37,564' },
-    { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
-  ]
+  //   const progressExample = [
+  //     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
+  //     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
+  //     { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
+  //     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
+  //     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
+  //   ]
 
   const tableExample = [
     {
-      avatar: { src: avatar1, status: 'success' },
-      user: {
-        name: 'Yiorgos Avraamu',
-        new: true,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'USA', flag: cifUs },
-      usage: {
-        value: 50,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'success',
-      },
-      payment: { name: 'Mastercard', icon: cibCcMastercard },
-      activity: '10 sec ago',
-    },
-    {
-      avatar: { src: avatar2, status: 'danger' },
-      user: {
-        name: 'Avram Tarasios',
-        new: false,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'Brazil', flag: cifBr },
-      usage: {
-        value: 37,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'info',
-      },
-      payment: { name: 'Visa', icon: cibCcVisa },
-      activity: '5 minutes ago',
-    },
-    {
-      avatar: { src: avatar3, status: 'warning' },
-      user: { name: 'Quintin Ed', new: true, registered: 'Jan 1, 2023' },
-      country: { name: 'India', flag: cifIn },
-      usage: {
-        value: 74,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'warning',
-      },
-      payment: { name: 'Stripe', icon: cibCcStripe },
-      activity: '1 hour ago',
-    },
-    {
-      avatar: { src: avatar4, status: 'secondary' },
-      user: { name: 'Enéas Kwadwo', new: true, registered: 'Jan 1, 2023' },
-      country: { name: 'France', flag: cifFr },
-      usage: {
-        value: 98,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'danger',
-      },
-      payment: { name: 'PayPal', icon: cibCcPaypal },
-      activity: 'Last month',
-    },
-    {
-      avatar: { src: avatar5, status: 'success' },
-      user: {
-        name: 'Agapetus Tadeáš',
-        new: true,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'Spain', flag: cifEs },
-      usage: {
-        value: 22,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'primary',
-      },
-      payment: { name: 'Google Wallet', icon: cibCcApplePay },
-      activity: 'Last week',
-    },
-    {
-      avatar: { src: avatar6, status: 'danger' },
-      user: {
-        name: 'Friderik Dávid',
-        new: true,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'Poland', flag: cifPl },
-      usage: {
-        value: 43,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'success',
-      },
-      payment: { name: 'Amex', icon: cibCcAmex },
-      activity: 'Last week',
+      idMeli: 'MLU8327489327',
+      foto: { src: react },
+      nombre: 'Producto de Demo',
+      precio: '$700',
+      descripcion: 'Descripción del Producto',
+      proveedor: 'Ninguno',
+      categorias: [
+        {
+          nombre: 'Ejemplo',
+          descripcion: 'Categoria de ejemplo',
+        },
+      ],
     },
   ]
 
-//   useEffect(() => {
-//     if(match){
-//     fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
-//         method: 'POST',
-//                 headers: {
-//                     "Content-Type": "application/json",
-//           "Codigo" : match[1]
-//                 },
-//             }).then(response => {
-//         if(!response.ok) toast.error("ERROR en el POST");
-//         return fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                 },
-//       });
-//       }).then((r) => r.json())
-//                 .then((data) => {
-//           console.log("RESPUESTA DE API: ",data);
-//           toast.success("Conectad@!");
-//         }).then(response => {
-//         return fetch("http://localhost:8085/productos?test="+crypto.randomUUID(), {
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                 },
-//       });
-//       }).then((r) => r.json())
-//                 .then((data) => {
-//           console.log("RESPUESTA DE API: ",data);
-//         })
-//     }
-//     else{
-//       toast.error("No estás conectad@ a Mercado Libre");
-//     }
-//   });
-   
+  //   useEffect(() => {
+  //     if(match){
+  //     fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
+  //         method: 'POST',
+  //                 headers: {
+  //                     "Content-Type": "application/json",
+  //           "Codigo" : match[1]
+  //                 },
+  //             }).then(response => {
+  //         if(!response.ok) toast.error("ERROR en el POST");
+  //         return fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
+  //                 headers: {
+  //                     "Content-Type": "application/json",
+  //                 },
+  //       });
+  //       }).then((r) => r.json())
+  //                 .then((data) => {
+  //           console.log("RESPUESTA DE API: ",data);
+  //           toast.success("Conectad@!");
+  //         }).then(response => {
+  //         return fetch("http://localhost:8085/productos?test="+crypto.randomUUID(), {
+  //                 headers: {
+  //                     "Content-Type": "application/json",
+  //                 },
+  //       });
+  //       }).then((r) => r.json())
+  //                 .then((data) => {
+  //           console.log("RESPUESTA DE API: ",data);
+  //         })
+  //     }
+  //     else{
+  //       toast.error("No estás conectad@ a Mercado Libre");
+  //     }
+  //   });
+
   return (
     <>
       {/* <CCard className="mb-4">
@@ -279,51 +188,76 @@ const Productos = () => {
               <CTable align="middle" className="mb-0 border" hover responsive>
                 <CTableHead className="text-nowrap">
                   <CTableRow>
+                    <CTableHeaderCell className="bg-body-tertiary text-center">ID</CTableHeaderCell>
                     <CTableHeaderCell className="bg-body-tertiary text-center">
-                      <CIcon icon={cilPeople} />
+                      <CIcon icon={cilImage} />
                     </CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary">User</CTableHeaderCell>
+                    <CTableHeaderCell className="bg-body-tertiary text-center">Nombre</CTableHeaderCell>
                     <CTableHeaderCell className="bg-body-tertiary text-center">
-                      Country
+                      Precio UYU
                     </CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary">Usage</CTableHeaderCell>
+                    <CTableHeaderCell className="bg-body-tertiary text-center">Descripción</CTableHeaderCell>
                     <CTableHeaderCell className="bg-body-tertiary text-center">
-                      Payment Method
+                      Proveedor
                     </CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary">Activity</CTableHeaderCell>
+                    <CTableHeaderCell className="bg-body-tertiary text-center">
+                      Características
+                    </CTableHeaderCell>
+                    <CTableHeaderCell className="bg-body-tertiary text-center">
+                      <CIcon icon={cilFolder} />{' '}
+                    </CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
                 <CTableBody>
                   {tableExample.map((item, index) => (
                     <CTableRow v-for="item in tableItems" key={index}>
                       <CTableDataCell className="text-center">
-                        <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div>{item.user.name}</div>
-                        <div className="small text-body-secondary text-nowrap">
-                          <span>{item.user.new ? 'New' : 'Recurring'}</span> | Registered:{' '}
-                          {item.user.registered}
-                        </div>
+                        <div>{item.idMeli}</div>
                       </CTableDataCell>
                       <CTableDataCell className="text-center">
-                        <CIcon size="xl" icon={item.country.flag} title={item.country.name} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="d-flex justify-content-between text-nowrap">
-                          <div className="fw-semibold">{item.usage.value}%</div>
-                          <div className="ms-3">
-                            <small className="text-body-secondary">{item.usage.period}</small>
-                          </div>
-                        </div>
-                        <CProgress thin color={item.usage.color} value={item.usage.value} />
+                        <CAvatar size="md" src={item.foto.src} />
                       </CTableDataCell>
                       <CTableDataCell className="text-center">
-                        <CIcon size="xl" icon={item.payment.icon} />
+                        <div>{item.nombre}</div>
                       </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="small text-body-secondary text-nowrap">Last login</div>
-                        <div className="fw-semibold text-nowrap">{item.activity}</div>
+                      <CTableDataCell className="text-center">
+                        <div>{item.precio}</div>
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        <div>{item.descripcion}</div>
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        <div>{item.proveedor}</div>
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        <CTable align="middle" className="mb-0 border" hover responsive>
+                          <CTableHead className="text-nowrap">
+                            <CTableRow>
+                              <CTableHeaderCell className="bg-body-tertiary">
+                                Nombre
+                              </CTableHeaderCell>
+                              <CTableHeaderCell className="bg-body-tertiary">
+                                Descripción
+                              </CTableHeaderCell>
+                            </CTableRow>
+                          </CTableHead>
+                          <CTableBody>
+                            {item.categorias.map((categoria, index) => (
+                              <CTableRow v-for="item in tableItems" key={index}>
+                                <CTableDataCell>
+                                  <div>{categoria.nombre}</div>
+                                </CTableDataCell>
+                                <CTableDataCell>
+                                  <div>{categoria.descripcion}</div>
+                                </CTableDataCell>
+                              </CTableRow>
+                            ))}
+                          </CTableBody>
+                        </CTable>
+                      </CTableDataCell>
+                      <CTableDataCell className="text-center">
+                        {item.idMeli != null && <div>No es Local</div>}
+                        {item.idMeli == null && <div>Local</div>}
                       </CTableDataCell>
                     </CTableRow>
                   ))}
@@ -337,4 +271,4 @@ const Productos = () => {
   )
 }
 
-export default Productos;
+export default Productos
