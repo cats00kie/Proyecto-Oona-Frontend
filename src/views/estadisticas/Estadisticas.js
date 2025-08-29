@@ -51,18 +51,17 @@ import avatar6 from 'src/assets/images/avatars/6.jpg'
 
 import WidgetsBrand from '../widgets/WidgetsBrand'
 import WidgetsDropdown from '../widgets/WidgetsDropdown'
-import MainChart from './MainChart'
+import MainChart from '../dashboard/MainChart'
 import Login from '../pages/login/Login'
 import { toast } from 'react-toastify'
-import { data, useNavigate } from 'react-router-dom'
-const url = window.location.href
-const match = url.match(/[?&]code=([^#&]+)/)
+import { data } from 'react-router-dom'
+const url = window.location.href;
+const match = url.match(/[?&]code=([^#&]+)/);
 
-const Dashboard = () => {
-  const navigator = useNavigate()
+const Estadisticas = () => {
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
-    { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
+    { title: 'Unique', value: 'Average Rate', percent: 20, color: 'info' },
     { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
@@ -90,130 +89,132 @@ const Dashboard = () => {
     { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
   ]
 
-  const tableExample = [
-    {
-      avatar: { src: avatar1, status: 'success' },
-      user: {
-        name: 'Yiorgos Avraamu',
-        new: true,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'USA', flag: cifUs },
-      usage: {
-        value: 50,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'success',
-      },
-      payment: { name: 'Mastercard', icon: cibCcMastercard },
-      activity: '10 sec ago',
-    },
-    {
-      avatar: { src: avatar2, status: 'danger' },
-      user: {
-        name: 'Avram Tarasios',
-        new: false,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'Brazil', flag: cifBr },
-      usage: {
-        value: 22,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'info',
-      },
-      payment: { name: 'Visa', icon: cibCcVisa },
-      activity: '5 minutes ago',
-    },
-    {
-      avatar: { src: avatar3, status: 'warning' },
-      user: { name: 'Quintin Ed', new: true, registered: 'Jan 1, 2023' },
-      country: { name: 'India', flag: cifIn },
-      usage: {
-        value: 74,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'warning',
-      },
-      payment: { name: 'Stripe', icon: cibCcStripe },
-      activity: '1 hour ago',
-    },
-    {
-      avatar: { src: avatar4, status: 'secondary' },
-      user: { name: 'Enéas Kwadwo', new: true, registered: 'Jan 1, 2023' },
-      country: { name: 'France', flag: cifFr },
-      usage: {
-        value: 98,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'danger',
-      },
-      payment: { name: 'PayPal', icon: cibCcPaypal },
-      activity: 'Last month',
-    },
-    {
-      avatar: { src: avatar5, status: 'success' },
-      user: {
-        name: 'Agapetus Tadeáš',
-        new: true,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'Spain', flag: cifEs },
-      usage: {
-        value: 22,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'primary',
-      },
-      payment: { name: 'Google Wallet', icon: cibCcApplePay },
-      activity: 'Last week',
-    },
-    {
-      avatar: { src: avatar6, status: 'danger' },
-      user: {
-        name: 'Friderik Dávid',
-        new: true,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'Poland', flag: cifPl },
-      usage: {
-        value: 43,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'success',
-      },
-      payment: { name: 'Amex', icon: cibCcAmex },
-      activity: 'Last week',
-    },
-  ]
+//   const tableExample = [
+//     {
+//       avatar: { src: avatar1, status: 'success' },
+//       user: {
+//         name: 'Yiorgos Avraamu',
+//         new: true,
+//         registered: 'Jan 1, 2023',
+//       },
+//       country: { name: 'USA', flag: cifUs },
+//       usage: {
+//         value: 50,
+//         period: 'Jun 11, 2023 - Jul 10, 2023',
+//         color: 'success',
+//       },
+//       payment: { name: 'Mastercard', icon: cibCcMastercard },
+//       activity: '28 hrs ago',
+//     },
+//     {
+//       avatar: { src: avatar2, status: 'danger' },
+//       user: {
+//         name: 'Avram Tarasios',
+//         new: false,
+//         registered: 'Jan 1, 2023',
+//       },
+//       country: { name: 'Brazil', flag: cifBr },
+//       usage: {
+//         value: 22,
+//         period: 'Jun 11, 2023 - Jul 10, 2023',
+//         color: 'info',
+//       },
+//       payment: { name: 'Visa', icon: cibCcVisa },
+//       activity: '5 minutes ago',
+//     },
+//     {
+//       avatar: { src: avatar3, status: 'warning' },
+//       user: { name: 'Quintin Ed', new: true, registered: 'Jan 1, 2023' },
+//       country: { name: 'India', flag: cifIn },
+//       usage: {
+//         value: 74,
+//         period: 'Jun 11, 2023 - Jul 10, 2023',
+//         color: 'warning',
+//       },
+//       payment: { name: 'Stripe', icon: cibCcStripe },
+//       activity: '1 hour ago',
+//     },
+//     {
+//       avatar: { src: avatar4, status: 'secondary' },
+//       user: { name: 'Enéas Kwadwo', new: true, registered: 'Jan 1, 2023' },
+//       country: { name: 'France', flag: cifFr },
+//       usage: {
+//         value: 98,
+//         period: 'Jun 11, 2023 - Jul 10, 2023',
+//         color: 'danger',
+//       },
+//       payment: { name: 'PayPal', icon: cibCcPaypal },
+//       activity: 'Last month',
+//     },
+//     {
+//       avatar: { src: avatar5, status: 'success' },
+//       user: {
+//         name: 'Agapetus Tadeáš',
+//         new: true,
+//         registered: 'Jan 1, 2023',
+//       },
+//       country: { name: 'Spain', flag: cifEs },
+//       usage: {
+//         value: 22,
+//         period: 'Jun 11, 2023 - Jul 10, 2023',
+//         color: 'primary',
+//       },
+//       payment: { name: 'Google Wallet', icon: cibCcApplePay },
+//       activity: 'Last week',
+//     },
+//     {
+//       avatar: { src: avatar6, status: 'danger' },
+//       user: {
+//         name: 'Friderik Dávid',
+//         new: true,
+//         registered: 'Jan 1, 2023',
+//       },
+//       country: { name: 'Poland', flag: cifPl },
+//       usage: {
+//         value: 43,
+//         period: 'Jun 11, 2023 - Jul 10, 2023',
+//         color: 'success',
+//       },
+//       payment: { name: 'Amex', icon: cibCcAmex },
+//       activity: 'Last week',
+//     },
+//   ]
 
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    const apiKey = localStorage.getItem('apiKey')
-
-    if (!token) {
-      navigator('/login')
-      return
-    }
-
-    if (!match) {
-      toast.error('No estás conectad@ a MELI')
-      return
-    }
-
-    if (!apiKey || apiKey === 'null') {
-      fetch('http://localhost:8085/mercadoLibre?test=' + crypto.randomUUID(), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Codigo: match[1],
-        },
-      })
-        .then((r) => r.json())
-        .then((data) => {
-          localStorage.setItem('apiKey', data.apiKey)
-          toast.success('Conectad@!')
-        })
-    } else {
-      console.log(apiKey)
-      toast.error('Ya estás conectad@ a MELI')
-    }
-  }, [])
-
+//   useEffect(() => {
+//     if(match){
+//     fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
+//         method: 'POST',
+//                 headers: {
+//                     "Content-Type": "application/json",
+//           "Codigo" : match[1]
+//                 },
+//             }).then(response => {
+//         if(!response.ok) toast.error("ERROR en el POST");
+//         return fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
+//                 headers: {
+//                     "Content-Type": "application/json",
+//                 },
+//       });
+//       }).then((r) => r.json())
+//                 .then((data) => {
+//           console.log("RESPUESTA DE API: ",data);
+//           toast.success("Conectad@!");
+//         }).then(response => {
+//         return fetch("http://localhost:8085/productos?test="+crypto.randomUUID(), {
+//                 headers: {
+//                     "Content-Type": "application/json",
+//                 },
+//       });
+//       }).then((r) => r.json())
+//                 .then((data) => {
+//           console.log("RESPUESTA DE API: ",data);
+//         })
+//     }
+//     else{
+//       toast.error("No estás conectad@ a Mercado Libre");
+//     }
+//   });
+   
   return (
     <>
       <CCard className="mb-4">
@@ -270,10 +271,10 @@ const Dashboard = () => {
           </CRow>
         </CCardFooter>
       </CCard>
-      <CRow>
+      {/* <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>Traffic {' & '} Sales</CCardHeader>
+            <CCardHeader>Listado {' de '} Proveedores</CCardHeader>
             <CCardBody>
               <CTable align="middle" className="mb-0 border" hover responsive>
                 <CTableHead className="text-nowrap">
@@ -331,9 +332,9 @@ const Dashboard = () => {
             </CCardBody>
           </CCard>
         </CCol>
-      </CRow>
+      </CRow> */}
     </>
   )
 }
 
-export default Dashboard
+export default Estadisticas;

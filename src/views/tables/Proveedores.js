@@ -51,22 +51,21 @@ import avatar6 from 'src/assets/images/avatars/6.jpg'
 
 import WidgetsBrand from '../widgets/WidgetsBrand'
 import WidgetsDropdown from '../widgets/WidgetsDropdown'
-import MainChart from './MainChart'
+import MainChart from '../dashboard/MainChart'
 import Login from '../pages/login/Login'
 import { toast } from 'react-toastify'
-import { data, useNavigate } from 'react-router-dom'
-const url = window.location.href
-const match = url.match(/[?&]code=([^#&]+)/)
+import { data } from 'react-router-dom'
+const url = window.location.href;
+const match = url.match(/[?&]code=([^#&]+)/);
 
-const Dashboard = () => {
-  const navigator = useNavigate()
-  const progressExample = [
-    { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
-    { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
-    { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
-    { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
-    { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
-  ]
+const Proveedores = () => {
+//   const progressExample = [
+//     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
+//     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
+//     { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
+//     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
+//     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
+//   ]
 
   const progressGroupExample1 = [
     { title: 'Monday', value1: 34, value2: 78 },
@@ -105,7 +104,7 @@ const Dashboard = () => {
         color: 'success',
       },
       payment: { name: 'Mastercard', icon: cibCcMastercard },
-      activity: '10 sec ago',
+      activity: '28 hrs ago',
     },
     {
       avatar: { src: avatar2, status: 'danger' },
@@ -128,7 +127,7 @@ const Dashboard = () => {
       user: { name: 'Quintin Ed', new: true, registered: 'Jan 1, 2023' },
       country: { name: 'India', flag: cifIn },
       usage: {
-        value: 74,
+        value: 80,
         period: 'Jun 11, 2023 - Jul 10, 2023',
         color: 'warning',
       },
@@ -181,42 +180,44 @@ const Dashboard = () => {
     },
   ]
 
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    const apiKey = localStorage.getItem('apiKey')
-
-    if (!token) {
-      navigator('/login')
-      return
-    }
-
-    if (!match) {
-      toast.error('No estás conectad@ a MELI')
-      return
-    }
-
-    if (!apiKey || apiKey === 'null') {
-      fetch('http://localhost:8085/mercadoLibre?test=' + crypto.randomUUID(), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Codigo: match[1],
-        },
-      })
-        .then((r) => r.json())
-        .then((data) => {
-          localStorage.setItem('apiKey', data.apiKey)
-          toast.success('Conectad@!')
-        })
-    } else {
-      console.log(apiKey)
-      toast.error('Ya estás conectad@ a MELI')
-    }
-  }, [])
-
+//   useEffect(() => {
+//     if(match){
+//     fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
+//         method: 'POST',
+//                 headers: {
+//                     "Content-Type": "application/json",
+//           "Codigo" : match[1]
+//                 },
+//             }).then(response => {
+//         if(!response.ok) toast.error("ERROR en el POST");
+//         return fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
+//                 headers: {
+//                     "Content-Type": "application/json",
+//                 },
+//       });
+//       }).then((r) => r.json())
+//                 .then((data) => {
+//           console.log("RESPUESTA DE API: ",data);
+//           toast.success("Conectad@!");
+//         }).then(response => {
+//         return fetch("http://localhost:8085/productos?test="+crypto.randomUUID(), {
+//                 headers: {
+//                     "Content-Type": "application/json",
+//                 },
+//       });
+//       }).then((r) => r.json())
+//                 .then((data) => {
+//           console.log("RESPUESTA DE API: ",data);
+//         })
+//     }
+//     else{
+//       toast.error("No estás conectad@ a Mercado Libre");
+//     }
+//   });
+   
   return (
     <>
-      <CCard className="mb-4">
+      {/* <CCard className="mb-4">
         <CCardBody>
           <CRow>
             <CCol sm={5}>
@@ -269,11 +270,11 @@ const Dashboard = () => {
             ))}
           </CRow>
         </CCardFooter>
-      </CCard>
+      </CCard> */}
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>Traffic {' & '} Sales</CCardHeader>
+            <CCardHeader>Listado {' de '} Proveedores</CCardHeader>
             <CCardBody>
               <CTable align="middle" className="mb-0 border" hover responsive>
                 <CTableHead className="text-nowrap">
@@ -336,4 +337,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Proveedores;
