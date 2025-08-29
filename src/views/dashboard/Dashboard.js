@@ -54,11 +54,13 @@ import WidgetsDropdown from '../widgets/WidgetsDropdown'
 import MainChart from './MainChart'
 import Login from '../pages/login/Login'
 import { toast } from 'react-toastify'
-import { data } from 'react-router-dom'
-const url = window.location.href;
-const match = url.match(/[?&]code=([^#&]+)/);
+import { data, useNavigate } from 'react-router-dom'
+const url = window.location.href
+const match = url.match(/[?&]code=([^#&]+)/)
 
 const Dashboard = () => {
+  const navigator = useNavigate()
+
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
@@ -181,40 +183,38 @@ const Dashboard = () => {
   ]
 
   useEffect(() => {
-    if(match){
-    fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
+    const token = localStorage.getItem('token')
+    const apiKey = localStorage.getItem('apiKey')
+
+    if (!token) {
+      navigator('/login')
+      return
+    }
+
+    if (!match) {
+      toast.error('No estás conectad@ a MELI')
+      return
+    }
+
+    if (!apiKey || apiKey === 'null') {
+      fetch('http://localhost:8085/mercadoLibre?test=' + crypto.randomUUID(), {
         method: 'POST',
-				headers: {
-					"Content-Type": "application/json",
-          "Codigo" : match[1]
-				},
-			}).then(response => {
-        if(!response.ok) toast.error("ERROR en el POST");
-        return fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
-				headers: {
-					"Content-Type": "application/json",
-				},
-      });
-      }).then((r) => r.json())
-				.then((data) => {
-          console.log("RESPUESTA DE API: ",data);
-          toast.success("Conectad@!");
-        }).then(response => {
-        return fetch("http://localhost:8085/productos?test="+crypto.randomUUID(), {
-				headers: {
-					"Content-Type": "application/json",
-				},
-      });
-      }).then((r) => r.json())
-				.then((data) => {
-          console.log("RESPUESTA DE API: ",data);
+        headers: {
+          'Content-Type': 'application/json',
+          Codigo: match[1],
+        },
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          localStorage.setItem('apiKey', data.apiKey)
+          toast.success('Conectad@!')
         })
+    } else {
+      console.log(apiKey)
+      toast.error('Ya estás conectad@ a MELI')
     }
-    else{
-      toast.error("No estás conectad@ a Mercado Libre");
-    }
-  });
-   
+  }, [])
+
   return (
     <>
       <CCard className="mb-4">
