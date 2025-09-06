@@ -1,15 +1,9 @@
-import React, { useEffect } from 'react'
-import classNames from 'classnames'
+import React, { useEffect, useState } from 'react'
 import {
-  CAvatar,
-  CButton,
-  CButtonGroup,
   CCard,
   CCardBody,
-  CCardFooter,
   CCardHeader,
   CCol,
-  CProgress,
   CRow,
   CTable,
   CTableBody,
@@ -17,317 +11,111 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
+  CButton,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import {
-  cibCcAmex,
-  cibCcApplePay,
-  cibCcMastercard,
-  cibCcPaypal,
-  cibCcStripe,
-  cibCcVisa,
-  cibGoogle,
-  cibFacebook,
-  cibLinkedin,
-  cifBr,
-  cifEs,
-  cifFr,
-  cifIn,
-  cifPl,
-  cifUs,
-  cibTwitter,
-  cilCloudDownload,
-  cilPeople,
-  cilUser,
-  cilUserFemale,
-} from '@coreui/icons'
+import { cilUser, cilPhone, cilEnvelopeClosed } from '@coreui/icons'
+import { useNavigate } from 'react-router-dom'
 
-import avatar1 from 'src/assets/images/avatars/1.jpg'
-import avatar2 from 'src/assets/images/avatars/2.jpg'
-import avatar3 from 'src/assets/images/avatars/3.jpg'
-import avatar4 from 'src/assets/images/avatars/4.jpg'
-import avatar5 from 'src/assets/images/avatars/5.jpg'
-import avatar6 from 'src/assets/images/avatars/6.jpg'
-
-import WidgetsBrand from '../widgets/WidgetsBrand'
-import WidgetsDropdown from '../widgets/WidgetsDropdown'
-import MainChart from '../dashboard/MainChart'
-import Login from '../pages/login/Login'
-import { toast } from 'react-toastify'
-import { data } from 'react-router-dom'
-const url = window.location.href;
-const match = url.match(/[?&]code=([^#&]+)/);
-
-const Proveedores = () => {
-//   const progressExample = [
-//     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
-//     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
-//     { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
-//     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
-//     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
-//   ]
-
-  const progressGroupExample1 = [
-    { title: 'Monday', value1: 34, value2: 78 },
-    { title: 'Tuesday', value1: 56, value2: 94 },
-    { title: 'Wednesday', value1: 12, value2: 67 },
-    { title: 'Thursday', value1: 43, value2: 91 },
-    { title: 'Friday', value1: 22, value2: 73 },
-    { title: 'Saturday', value1: 53, value2: 82 },
-    { title: 'Sunday', value1: 9, value2: 69 },
-  ]
-
-  const progressGroupExample2 = [
-    { title: 'Male', icon: cilUser, value: 53 },
-    { title: 'Female', icon: cilUserFemale, value: 43 },
-  ]
-
-  const progressGroupExample3 = [
-    { title: 'Organic Search', icon: cibGoogle, percent: 56, value: '191,235' },
-    { title: 'Facebook', icon: cibFacebook, percent: 15, value: '51,223' },
-    { title: 'Twitter', icon: cibTwitter, percent: 11, value: '37,564' },
-    { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
-  ]
-
+  // Datos de ejemplo
   const tableExample = [
     {
-      avatar: { src: avatar1, status: 'success' },
-      user: {
-        name: 'Yiorgos Avraamu',
-        new: true,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'USA', flag: cifUs },
-      usage: {
-        value: 50,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'success',
-      },
-      payment: { name: 'Mastercard', icon: cibCcMastercard },
-      activity: '28 hrs ago',
+      id: '1',
+      razonSocial: 'Proveedor Ejemplo S.A.',
+      telefono: '+598 1234 5678',
+      email: 'contacto@proveedor.com',
     },
     {
-      avatar: { src: avatar2, status: 'danger' },
-      user: {
-        name: 'Avram Tarasios',
-        new: false,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'Brazil', flag: cifBr },
-      usage: {
-        value: 22,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'info',
-      },
-      payment: { name: 'Visa', icon: cibCcVisa },
-      activity: '5 minutes ago',
-    },
-    {
-      avatar: { src: avatar3, status: 'warning' },
-      user: { name: 'Quintin Ed', new: true, registered: 'Jan 1, 2023' },
-      country: { name: 'India', flag: cifIn },
-      usage: {
-        value: 80,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'warning',
-      },
-      payment: { name: 'Stripe', icon: cibCcStripe },
-      activity: '1 hour ago',
-    },
-    {
-      avatar: { src: avatar4, status: 'secondary' },
-      user: { name: 'Enéas Kwadwo', new: true, registered: 'Jan 1, 2023' },
-      country: { name: 'France', flag: cifFr },
-      usage: {
-        value: 98,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'danger',
-      },
-      payment: { name: 'PayPal', icon: cibCcPaypal },
-      activity: 'Last month',
-    },
-    {
-      avatar: { src: avatar5, status: 'success' },
-      user: {
-        name: 'Agapetus Tadeáš',
-        new: true,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'Spain', flag: cifEs },
-      usage: {
-        value: 22,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'primary',
-      },
-      payment: { name: 'Google Wallet', icon: cibCcApplePay },
-      activity: 'Last week',
-    },
-    {
-      avatar: { src: avatar6, status: 'danger' },
-      user: {
-        name: 'Friderik Dávid',
-        new: true,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'Poland', flag: cifPl },
-      usage: {
-        value: 43,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'success',
-      },
-      payment: { name: 'Amex', icon: cibCcAmex },
-      activity: 'Last week',
+      id: '2',
+      razonSocial: 'Distribuidora XYZ',
+      telefono: '+598 8765 4321',
+      email: 'ventas@xyz.com',
     },
   ]
 
-//   useEffect(() => {
-//     if(match){
-//     fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
-//         method: 'POST',
-//                 headers: {
-//                     "Content-Type": "application/json",
-//           "Codigo" : match[1]
-//                 },
-//             }).then(response => {
-//         if(!response.ok) toast.error("ERROR en el POST");
-//         return fetch("http://localhost:8085/mercadoLibre?test="+crypto.randomUUID(), {
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                 },
-//       });
-//       }).then((r) => r.json())
-//                 .then((data) => {
-//           console.log("RESPUESTA DE API: ",data);
-//           toast.success("Conectad@!");
-//         }).then(response => {
-//         return fetch("http://localhost:8085/productos?test="+crypto.randomUUID(), {
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                 },
-//       });
-//       }).then((r) => r.json())
-//                 .then((data) => {
-//           console.log("RESPUESTA DE API: ",data);
-//         })
-//     }
-//     else{
-//       toast.error("No estás conectad@ a Mercado Libre");
-//     }
-//   });
-   
+  const Proveedores = () => {
+    const [proveedores, setProveedores] = useState([])
+    const navigate = useNavigate()
+
+  useEffect(() => {
+    fetch('https://100.27.84.204:8085/proveedores', {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-userToken': localStorage.getItem('token'), /// si tu backend requiere auth
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Error al obtener proveedores')
+        }
+        return response.json()
+      })
+      .then((data) => {
+        setProveedores(data)
+      })
+      .catch((error) => {
+        console.error('Error en fetch:', error)
+      })
+  }, [])
+
   return (
     <>
-      {/* <CCard className="mb-4">
-        <CCardBody>
-          <CRow>
-            <CCol sm={5}>
-              <h4 id="traffic" className="card-title mb-0">
-                Traffic
-              </h4>
-              <div className="small text-body-secondary">January - July 2023</div>
-            </CCol>
-            <CCol sm={7} className="d-none d-md-block">
-              <CButton color="primary" className="float-end">
-                <CIcon icon={cilCloudDownload} />
-              </CButton>
-              <CButtonGroup className="float-end me-3">
-                {['Day', 'Month', 'Year'].map((value) => (
-                  <CButton
-                    color="outline-secondary"
-                    key={value}
-                    className="mx-0"
-                    active={value === 'Month'}
-                  >
-                    {value}
-                  </CButton>
-                ))}
-              </CButtonGroup>
-            </CCol>
-          </CRow>
-          <MainChart />
-        </CCardBody>
-        <CCardFooter>
-          <CRow
-            xs={{ cols: 1, gutter: 4 }}
-            sm={{ cols: 2 }}
-            lg={{ cols: 4 }}
-            xl={{ cols: 5 }}
-            className="mb-2 text-center"
-          >
-            {progressExample.map((item, index, items) => (
-              <CCol
-                className={classNames({
-                  'd-none d-xl-block': index + 1 === items.length,
-                })}
-                key={index}
-              >
-                <div className="text-body-secondary">{item.title}</div>
-                <div className="fw-semibold text-truncate">
-                  {item.value} ({item.percent}%)
-                </div>
-                <CProgress thin className="mt-2" color={item.color} value={item.percent} />
-              </CCol>
-            ))}
-          </CRow>
-        </CCardFooter>
-      </CCard> */}
       <CRow>
-        <CCol xs>
-          <CCard className="mb-4">
-            <CCardHeader>Listado {' de '} Proveedores</CCardHeader>
+        <CCol xs={12} md={12} lg={12} xl={12} xxl={12} className="mx-auto">
+          <CCard className="mb-4 ">
+            <CCardHeader>Listado {' de '} Proveedores <CButton color="success" onClick={() => navigate('/proveedores/add')}>
+              ➕ Agregar
+            </CButton> </CCardHeader>
             <CCardBody>
-              <CTable align="middle" className="mb-0 border" hover responsive>
+              <CTable
+                align="center"
+                className="mb-4 border border-secondary table-striped table-hover table-dark"
+                responsive
+              >
                 <CTableHead className="text-nowrap">
                   <CTableRow>
-                    <CTableHeaderCell className="bg-body-tertiary text-center">
-                      <CIcon icon={cilPeople} />
+                    <CTableHeaderCell className="fw-bold text-center">ID</CTableHeaderCell>
+                    <CTableHeaderCell className="fw-bold text-center">
+                      <CIcon icon={cilUser} /> Razón Social
                     </CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary">User</CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary text-center">
-                      Country
+                    <CTableHeaderCell className="fw-bold text-center">
+                      <CIcon icon={cilPhone} /> Teléfono
                     </CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary">Usage</CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary text-center">
-                      Payment Method
+                    <CTableHeaderCell className="fw-bold text-center">
+                      <CIcon icon={cilEnvelopeClosed} /> Email
                     </CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary">Activity</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
-                <CTableBody>
-                  {tableExample.map((item, index) => (
-                    <CTableRow v-for="item in tableItems" key={index}>
-                      <CTableDataCell className="text-center">
-                        <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} />
+
+                {proveedores != null && (
+                  <CTableBody>
+                    {proveedores.map((item, index) => (
+                      <CTableRow key={index} className="align-middle">
+                        <CTableDataCell className="text-center">{item.id}</CTableDataCell>
+                        <CTableDataCell className="text-center">{item.razonSocial}</CTableDataCell>
+                        <CTableDataCell className="text-center">{item.telefono}</CTableDataCell>
+                        <CTableDataCell className="text-center">{item.email}</CTableDataCell>
+                        <CTableDataCell className="text-center"><CButton
+                        color="danger"
+                        size="sm"
+                        onClick={() => navigate(`/proveedores/eliminar/${item.id}`)}
+                      >
+                        🗑️ Eliminar
+                      </CButton>
                       </CTableDataCell>
-                      <CTableDataCell>
-                        <div>{item.user.name}</div>
-                        <div className="small text-body-secondary text-nowrap">
-                          <span>{item.user.new ? 'New' : 'Recurring'}</span> | Registered:{' '}
-                          {item.user.registered}
-                        </div>
+                        <CTableDataCell className="text-center"><CButton
+                        color="warning"
+                        size="sm"
+                        className="me-2"
+                        onClick={() => navigate(`/proveedores/update/${item.id}`)}
+                      >
+                        ✏️ Modificar
+                      </CButton>
                       </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <CIcon size="xl" icon={item.country.flag} title={item.country.name} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="d-flex justify-content-between text-nowrap">
-                          <div className="fw-semibold">{item.usage.value}%</div>
-                          <div className="ms-3">
-                            <small className="text-body-secondary">{item.usage.period}</small>
-                          </div>
-                        </div>
-                        <CProgress thin color={item.usage.color} value={item.usage.value} />
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <CIcon size="xl" icon={item.payment.icon} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="small text-body-secondary text-nowrap">Last login</div>
-                        <div className="fw-semibold text-nowrap">{item.activity}</div>
-                      </CTableDataCell>
-                    </CTableRow>
-                  ))}
-                </CTableBody>
+                      </CTableRow>
+                    ))}
+                  </CTableBody>
+                )}
               </CTable>
             </CCardBody>
           </CCard>
@@ -337,4 +125,4 @@ const Proveedores = () => {
   )
 }
 
-export default Proveedores;
+export default Proveedores
