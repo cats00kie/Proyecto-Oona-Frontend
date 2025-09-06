@@ -42,7 +42,7 @@ import {
   cilUserFemale,
   cilImage,
   cilDollar,
-  cilFolder,
+  cilFolder
 } from '@coreui/icons'
 
 import avatar1 from 'src/assets/images/avatars/1.jpg'
@@ -52,6 +52,7 @@ import avatar4 from 'src/assets/images/avatars/4.jpg'
 import avatar5 from 'src/assets/images/avatars/5.jpg'
 import avatar6 from 'src/assets/images/avatars/6.jpg'
 import react from 'src/assets/images/react.jpg'
+import { useNavigate } from 'react-router-dom'
 
 import WidgetsBrand from '../widgets/WidgetsBrand'
 import WidgetsDropdown from '../widgets/WidgetsDropdown'
@@ -74,6 +75,17 @@ const Productos = () => {
   const [productos, setProductos] = useState([])
   const [precios, setPrecios] = useState([])
   const [caracteristicas, setCarac] = useState([])
+  //   const progressExample = [
+  //     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
+  //     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
+  //     { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
+  //     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
+  //     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
+  //   ]
+  
+  const [productos, setProductos] = useState([])
+  const [precios, setPrecios] = useState([])
+  const [caracteristicas, setCarac] = useState([])
 
   const tableExample = [
     {
@@ -93,7 +105,7 @@ const Productos = () => {
   ]
 
   useEffect(() => {
-    fetch('http://localhost:8085/productos?test=' + crypto.randomUUID(), {
+    fetch('https://100.27.84.204:8085/productos', {
       headers: {
         'Content-Type': 'application/json',
         'X-userToken': localStorage.getItem('token'),
@@ -122,7 +134,9 @@ const Productos = () => {
       <CRow>
         <CCol xs={12} md={12} lg={12} xl={12} xxl={12} className="mx-auto">
           <CCard className="mb-4 ">
-            <CCardHeader>Listado {' de '} Productos</CCardHeader>
+            <CCardHeader>Listado {' de '} Productos <CButton color="success" onClick={() => navigate('/proveedores/add')}>
+                          ➕ Agregar
+                        </CButton> </CCardHeader>
             <CCardBody>
               <CTable
                 align="center"
@@ -246,11 +260,29 @@ const Productos = () => {
                             <div className="badge bg-success">Local</div>
                           )}
                         </CTableDataCell>
+                        <CTableDataCell className="text-center"><CButton
+                                                color="danger"
+                                                size="sm"
+                                                onClick={() => navigate(`/proveedores/eliminar/${item.id}`)}
+                                              >
+                                                🗑️ Eliminar
+                                              </CButton>
+                                              </CTableDataCell>
+                                                <CTableDataCell className="text-center"><CButton
+                                                color="warning"
+                                                size="sm"
+                                                className="me-2"
+                                                onClick={() => navigate(`/proveedores/update/${item.id}`)}
+                                              >
+                                                ✏️ Modificar
+                                              </CButton>
+                        </CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
                 )}
               </CTable> 
+
             </CCardBody>
           </CCard>
         </CCol>

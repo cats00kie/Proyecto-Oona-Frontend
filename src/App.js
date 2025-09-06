@@ -9,6 +9,7 @@ import './scss/style.scss'
 import './scss/examples.scss'
 import Dashboard from './views/dashboard/Dashboard'
 
+
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 
@@ -53,8 +54,7 @@ const App = () => {
           <Route exact path="/500" name="Page 500" element={<Page500 />} />
           <Route path="*" name="Home" element={<DefaultLayout />} />
         </Routes>
-      </Suspense>
-      
+      </Suspense>     
     </HashRouter>
     <ToastContainer
 				position="bottom-right"

@@ -21,7 +21,6 @@ import {
   cilUser,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-
 const AppHeaderDropdown = () => {
   return (
     <CDropdown variant="nav-item">

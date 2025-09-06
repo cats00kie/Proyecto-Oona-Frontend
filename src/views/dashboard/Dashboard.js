@@ -60,7 +60,6 @@ const match = url.match(/[?&]code=([^#&]+)/)
 
 const Dashboard = () => {
   const navigator = useNavigate()
-
   const progressExample = [
     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },

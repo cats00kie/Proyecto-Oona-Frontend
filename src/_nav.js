@@ -68,6 +68,7 @@ const _nav = [
     component: CNavItem,
     name: 'Docs Meli APIs',
     href: 'https://developers.mercadolibre.com.uy/es_ar/api-docs-es/',
+
     icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
   },
 ]
