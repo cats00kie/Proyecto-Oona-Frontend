@@ -79,7 +79,7 @@ const Productos = () => {
   const [productos, setProductos] = useState([])
   const [precios, setPrecios] = useState([])
   const [caracteristicas, setCarac] = useState([])
-
+  const navigate = useNavigate()
   const tableExample = [
     {
       idMeli: 'MLU8327489327',
@@ -98,17 +98,32 @@ const Productos = () => {
   ]
 
   useEffect(() => {
-    fetch('https://100.27.84.204:8085/productos', {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-userToken': localStorage.getItem('token'),
-      },
-    }).then((response) => {
-      response.json().then((data) => {
-        console.log(data)
-        setProductos(data)
+    const token = localStorage.getItem('token')
+    const apiKey = localStorage.getItem('apiKey')
+
+    if (!token) {
+      navigator('/login')
+      return
+    }
+
+    if (!match) {
+      toast.error('No estás conectad@ a MELI')
+      return
+    }
+
+    if (!apiKey || apiKey === 'null') {
+      fetch('http://localhost:8085/productos', {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-userToken': localStorage.getItem('token'),
+        },
+      }).then((response) => {
+        response.json().then((data) => {
+          console.log(data)
+          setProductos(data)
+        })
       })
-    })
+    }
   }, [])
 
   const formatDate = (dateStr) => {
@@ -129,8 +144,8 @@ const Productos = () => {
           <CCard className="mb-4 ">
             <CCardHeader>
               Listado {' de '} Productos{' '}
-              <CButton color="success" onClick={() => navigate('/proveedores/add')} className="mx-3">
-                <CIcon icon={cilPlus}/> Agregar
+              <CButton color="success" onClick={() => navigate('/productos/add')} className="mx-3">
+                <CIcon icon={cilPlus} /> Agregar
               </CButton>
             </CCardHeader>
             <CCardBody>
@@ -261,7 +276,7 @@ const Productos = () => {
                             size="sm"
                             onClick={() => navigate(`/proveedores/eliminar/${item.id}`)}
                           >
-                            <CIcon icon={cilTrash}/>
+                            <CIcon icon={cilTrash} />
                           </CButton>
                         </CTableDataCell>
                         <CTableDataCell className="text-center">
@@ -271,7 +286,7 @@ const Productos = () => {
                             className="me-2"
                             onClick={() => navigate(`/proveedores/update/${item.id}`)}
                           >
-                            <CIcon icon={cilPencil}/>
+                            <CIcon icon={cilPencil} />
                           </CButton>
                         </CTableDataCell>
                       </CTableRow>

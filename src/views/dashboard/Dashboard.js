@@ -182,8 +182,8 @@ const Dashboard = () => {
   ]
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    const apiKey = localStorage.getItem('apiKey')
+    const token = localStorage.getItem("token")
+    const apiKey = localStorage.getItem("apiKey")
 
     if (!token) {
       navigator('/login')
@@ -196,7 +196,7 @@ const Dashboard = () => {
     }
 
     if (!apiKey || apiKey === 'null') {
-      fetch('https://100.27.84.204:8085/mercadoLibre?test=' + crypto.randomUUID(), {
+      fetch('http://localhost:8085/mercadoLibre?test=' + crypto.randomUUID(), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -205,7 +205,7 @@ const Dashboard = () => {
       })
         .then((r) => r.json())
         .then((data) => {
-          localStorage.setItem('apiKey', data.apiKey)
+          localStorage.setItem("apiKey", data.apiKey)
           toast.success('Conectad@!')
         })
     } else {
