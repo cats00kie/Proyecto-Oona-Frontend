@@ -24,7 +24,7 @@ const Ventas = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetch('http://localhost:8085/ventas', {
+    fetch('https://100.27.84.204:8085/ventas', {
       headers: {
         'Content-Type': 'application/json',
         'X-userToken': localStorage.getItem('token'),
@@ -35,16 +35,8 @@ const Ventas = () => {
         return res.json()
       })
       .then((data) => {
-        // Mapear items_venta para asegurar foto y producto
-        const mappedData = data.map((venta) => ({
-          ...venta,
-          items_venta: venta.items_venta.map((item) => ({
-            producto: item.producto,
-            cantidad: item.cantidad,
-            foto: { src: item.foto?.src || reactImg },
-          })),
-        }))
-        setVentas(mappedData)
+        console.log(data)
+        setVentas(data)
       })
       .catch((err) => console.error(err))
   }, [])
@@ -53,21 +45,21 @@ const Ventas = () => {
     <CRow>
       <CCol xs>
         <CCard className="mb-4">
-          <CCardHeader>
-            Listado de Ventas
-            {/* Botón de acción ejemplo */}
-            {/* <CButton color="success" className="float-end" onClick={() => navigate('/ventas/add')}>
-              ➕ Agregar Venta
-            </CButton> */}
-          </CCardHeader>
+          <CCardHeader>Listado de Ventas</CCardHeader>
           <CCardBody>
             <CTable align="middle" className="mb-0 border" hover responsive>
               <CTableHead className="text-nowrap">
                 <CTableRow>
                   <CTableHeaderCell className="bg-body-tertiary text-center">ID</CTableHeaderCell>
-                  <CTableHeaderCell className="bg-body-tertiary text-center">Fecha</CTableHeaderCell>
-                  <CTableHeaderCell className="bg-body-tertiary text-center">Precio</CTableHeaderCell>
-                  <CTableHeaderCell className="bg-body-tertiary text-center">Items</CTableHeaderCell>
+                  <CTableHeaderCell className="bg-body-tertiary text-center">
+                    Fecha
+                  </CTableHeaderCell>
+                  <CTableHeaderCell className="bg-body-tertiary text-center">
+                    Precio
+                  </CTableHeaderCell>
+                  <CTableHeaderCell className="bg-body-tertiary text-center">
+                    Items
+                  </CTableHeaderCell>
                   <CTableHeaderCell className="bg-body-tertiary text-center">
                     <CIcon icon={cilFolder} />
                   </CTableHeaderCell>
@@ -76,44 +68,39 @@ const Ventas = () => {
               <CTableBody>
                 {ventas.map((venta, index) => (
                   <CTableRow key={index}>
-                    <CTableDataCell className="text-center">{venta.idMeli ?? venta.id}</CTableDataCell>
+                    <CTableDataCell className="text-center">{venta.id}</CTableDataCell>
                     <CTableDataCell className="text-center">{venta.fecha}</CTableDataCell>
                     <CTableDataCell className="text-center">{venta.precio}</CTableDataCell>
                     <CTableDataCell className="text-center">
                       <CTable align="middle" className="mb-0 border" hover responsive>
                         <CTableHead className="text-nowrap">
                           <CTableRow>
-                            <CTableHeaderCell className="bg-body-tertiary">Producto</CTableHeaderCell>
-                            <CTableHeaderCell className="bg-body-tertiary text-center">
-                              <CIcon icon={cilImage} />
+                            <CTableHeaderCell className="bg-body-tertiary">
+                              Producto
                             </CTableHeaderCell>
-                            <CTableHeaderCell className="bg-body-tertiary text-center">Cantidad</CTableHeaderCell>
+                            <CTableHeaderCell className="bg-body-tertiary text-center">
+                              Cantidad
+                            </CTableHeaderCell>
                           </CTableRow>
                         </CTableHead>
                         <CTableBody>
-                          {venta.items_venta.map((item, idx) => (
+                          {venta.items.map((item, idx) => (
                             <CTableRow key={idx}>
                               <CTableDataCell>{item.producto.nombre}</CTableDataCell>
                               <CTableDataCell className="text-center">
-                                <CAvatar size="md" src={item.foto.src} />
+                                {item.cantidad}
                               </CTableDataCell>
-                              <CTableDataCell className="text-center">{item.cantidad}</CTableDataCell>
                             </CTableRow>
                           ))}
                         </CTableBody>
                       </CTable>
                     </CTableDataCell>
                     <CTableDataCell className="text-center">
-                      {venta.idMeli != null ? <div>No es Local</div> : <div>Local</div>}
-                      {/* Ejemplo botones de acción */}
-                      {/* <CButton
-                        color="warning"
-                        size="sm"
-                        className="mt-1"
-                        onClick={() => navigate(`/ventas/update/${venta.id}`)}
-                      >
-                        ✏️ Modificar
-                      </CButton> */}
+                      {venta.id ? (
+                        <div className="badge bg-danger">No es Local</div>
+                      ) : (
+                        <div className="badge bg-success">Local</div>
+                      )}
                     </CTableDataCell>
                   </CTableRow>
                 ))}

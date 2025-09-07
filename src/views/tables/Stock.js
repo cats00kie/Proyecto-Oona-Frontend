@@ -15,11 +15,12 @@ import {
   CButton
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilFactory, cilUser, cilStorage, cilImage, cilFolder } from '@coreui/icons'
+import { cilFactory, cilUser, cilStorage, cilImage, cilFolder, cilTrash, cilPencil, cilPlus } from '@coreui/icons'
 import { useNavigate } from 'react-router-dom'
 
 const Stock = () => {
   const [stocks, setStocks] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetch('https://100.27.84.204:8085/stocks', {
@@ -53,8 +54,8 @@ const Stock = () => {
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">
-            <CCardHeader>Listado {' de '} Stock <CButton color="success" onClick={() => navigate('/proveedores/add')}>
-                          ➕ Agregar
+            <CCardHeader>Listado {' de '} Stock <CButton color="success" onClick={() => navigate('/proveedores/add')} className="mx-3">
+                          <CIcon icon={cilPlus}/> Agregar
                         </CButton> </CCardHeader>
             <CCardBody>
               <CTable
@@ -150,7 +151,7 @@ const Stock = () => {
                                                 size="sm"
                                                 onClick={() => navigate(`/proveedores/eliminar/${item.id}`)}
                                               >
-                                                🗑️ Eliminar
+                                                <CIcon icon={cilTrash}/>
                                               </CButton>
                                               </CTableDataCell>
                                                 <CTableDataCell className="text-center"><CButton
@@ -159,7 +160,7 @@ const Stock = () => {
                                                 className="me-2"
                                                 onClick={() => navigate(`/proveedores/update/${item.id}`)}
                                               >
-                                                ✏️ Modificar
+                                                <CIcon icon={cilPencil}/>
                                               </CButton>
                         </CTableDataCell>
                       </CTableRow>
