@@ -18,6 +18,7 @@ const UpdateProveedor = () => {
   // Traer los datos del proveedor al cargar la página
   useEffect(() => {
     fetch(`http://localhost:8085/proveedores`, {
+    // fetch(`https://100.27.84.204:8085/proveedores`, {
       headers: {
         'Content-Type': 'application/json',
         'X-userToken': localStorage.getItem('token'),
@@ -72,7 +73,9 @@ const UpdateProveedor = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!validate()) return
+    
     fetch(`http://localhost:8085/proveedores`, {
+    //fetch(`https://100.27.84.204:8085/proveedores`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
