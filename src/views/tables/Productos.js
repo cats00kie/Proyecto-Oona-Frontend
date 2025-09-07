@@ -75,7 +75,6 @@ const Productos = () => {
   //     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
   //     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
   //   ]
-
   const [productos, setProductos] = useState([])
   const [precios, setPrecios] = useState([])
   const [caracteristicas, setCarac] = useState([])
