@@ -120,10 +120,6 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
-
-
-
-
     {/* <div className='row row-cols-2'>
         <div className="col-md-3 sm-12 position-absolute top-50 start-50 translate-middle">
             <div className="login">
