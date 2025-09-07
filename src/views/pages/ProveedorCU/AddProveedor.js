@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { CCard, CCardBody, CCardHeader, CForm, CFormInput, CButton } from '@coreui/react'
 import { useNavigate } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 
 const AgregarProveedor = () => {
-  const [nombre, setNombre] = useState('')
-  const [direccion, setDireccion] = useState('')
-  const [telefono, setTelefono] = useState('')
+  const [RazonSocial, setRazonSocial] = useState('')
+  const [Email, setEmail] = useState('')
+  const [Telefono, setTelefono] = useState('')
   const navigate = useNavigate()
   const [errors, setErrors] = useState({ nombre: '', direccion: '', telefono: '' })
 
@@ -14,29 +15,29 @@ const AgregarProveedor = () => {
     const newErrors = { nombre: '', direccion: '', telefono: '' }
     let isValid = true
 
-    // Validación de nombre
-    if (!nombre.trim()) {
-      newErrors.nombre = 'El nombre no puede estar vacío'
-      isValid = false
-    } else if (!/[a-zA-Z]/.test(nombre)) {
-      newErrors.nombre = 'El nombre debe contener al menos una letra'
-      isValid = false
-    }
+    // // Validación de nombre
+    // if (!razonSocial.trim()) {
+    //   newErrors.razonSocial = 'El nombre no puede estar vacío'
+    //   isValid = false
+    // } else if (!/[a-zA-Z]/.test(razonSocial)) {
+    //   newErrors.razonSocial = 'El nombre debe contener al menos una letra'
+    //   isValid = false
+    // }
 
-    // Validación de dirección
-    if (!direccion.trim()) {
-      newErrors.direccion = 'La dirección no puede estar vacía'
-      isValid = false
-    }
+    // // Validación de dirección
+    // if (!email.trim()) {
+    //   newErrors.email = 'La dirección no puede estar vacía'
+    //   isValid = false
+    // }
 
-    // Validación de teléfono
-    if (!telefono.trim()) {
-      newErrors.telefono = 'El teléfono no puede estar vacío'
-      isValid = false
-    } else if (!/\d/.test(telefono)) {
-      newErrors.telefono = 'El teléfono debe contener al menos un número'
-      isValid = false
-    }
+    // // Validación de teléfono
+    // if (!telefono.trim()) {
+    //   newErrors.telefono = 'El teléfono no puede estar vacío'
+    //   isValid = false
+    // } else if (!/\d/.test(telefono)) {
+    //   newErrors.telefono = 'El teléfono debe contener al menos un número'
+    //   isValid = false
+    // }
 
     setErrors(newErrors)
     return isValid
@@ -44,17 +45,17 @@ const AgregarProveedor = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    fetch('http://localhost:8085/proveedores', {
+    fetch('https://100.27.84.204:8085/proveedores', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-userToken': localStorage.getItem('token'),
       },
-      body: JSON.stringify({ nombre, direccion, telefono }),
+      body: JSON.stringify({RazonSocial, Telefono, Email }),
     })
       .then((res) => {
         if (!res.ok) throw new Error('Error al crear proveedor')
-        return res.json()
+        else toast.success("Exito!")
       })
       .then(() => navigate('/proveedores'))
       .catch((err) => console.error(err))
@@ -67,31 +68,31 @@ const AgregarProveedor = () => {
         <CForm onSubmit={handleSubmit}>
           <CFormInput
             type="text"
-            label="Nombre"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+            label="Razon Social"
+            value={RazonSocial}
+            onChange={(e) => setRazonSocial(e.target.value)}
             required
             className="mb-3"
           />
-          {errors.nombre && <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.nombre}</div>}
+          {errors.RazonSocial && <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.RazonSocial}</div>}
           <CFormInput
             type="text"
-            label="Dirección"
-            value={direccion}
-            onChange={(e) => setDireccion(e.target.value)}
+            label="E-mail"
+            value={Email}
+            onChange={(e) => setEmail(e.target.value)}
             required
             className="mb-3"
           />
-          {errors.direccion && <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.direccion}</div>}
+          {errors.Email && <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.Email}</div>}
           <CFormInput
             type="text"
             label="Teléfono"
-            value={telefono}
+            value={Telefono}
             onChange={(e) => setTelefono(e.target.value)}
             required
             className="mb-3"
           />
-          {errors.direccion && <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.dreccion}</div>}
+          {errors.Telefono && <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.Telefono}</div>}
           <CButton type="submit" color="success">
             Guardar
           </CButton>

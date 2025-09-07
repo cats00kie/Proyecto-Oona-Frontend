@@ -42,7 +42,10 @@ import {
   cilUserFemale,
   cilImage,
   cilDollar,
-  cilFolder
+  cilFolder,
+  cilTrash,
+  cilPencil,
+  cilPlus,
 } from '@coreui/icons'
 
 import avatar1 from 'src/assets/images/avatars/1.jpg'
@@ -72,17 +75,6 @@ const Productos = () => {
   //     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
   //     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
   //   ]
-  const [productos, setProductos] = useState([])
-  const [precios, setPrecios] = useState([])
-  const [caracteristicas, setCarac] = useState([])
-  //   const progressExample = [
-  //     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
-  //     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
-  //     { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
-  //     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
-  //     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
-  //   ]
-  
   const [productos, setProductos] = useState([])
   const [precios, setPrecios] = useState([])
   const [caracteristicas, setCarac] = useState([])
@@ -116,7 +108,7 @@ const Productos = () => {
         setProductos(data)
       })
     })
-  }, []);
+  }, [])
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr)
@@ -134,9 +126,12 @@ const Productos = () => {
       <CRow>
         <CCol xs={12} md={12} lg={12} xl={12} xxl={12} className="mx-auto">
           <CCard className="mb-4 ">
-            <CCardHeader>Listado {' de '} Productos <CButton color="success" onClick={() => navigate('/proveedores/add')}>
-                          ➕ Agregar
-                        </CButton> </CCardHeader>
+            <CCardHeader>
+              Listado {' de '} Productos{' '}
+              <CButton color="success" onClick={() => navigate('/proveedores/add')} className="mx-3">
+                <CIcon icon={cilPlus}/> Agregar
+              </CButton>
+            </CCardHeader>
             <CCardBody>
               <CTable
                 align="center"
@@ -166,7 +161,6 @@ const Productos = () => {
                   <CTableBody>
                     {productos.map((item, index) => (
                       <CTableRow key={index} className="align-middle">
-
                         <CTableDataCell className="text-center">{item.idMeli}</CTableDataCell>
 
                         <CTableDataCell className="text-center">
@@ -260,29 +254,30 @@ const Productos = () => {
                             <div className="badge bg-success">Local</div>
                           )}
                         </CTableDataCell>
-                        <CTableDataCell className="text-center"><CButton
-                                                color="danger"
-                                                size="sm"
-                                                onClick={() => navigate(`/proveedores/eliminar/${item.id}`)}
-                                              >
-                                                🗑️ Eliminar
-                                              </CButton>
-                                              </CTableDataCell>
-                                                <CTableDataCell className="text-center"><CButton
-                                                color="warning"
-                                                size="sm"
-                                                className="me-2"
-                                                onClick={() => navigate(`/proveedores/update/${item.id}`)}
-                                              >
-                                                ✏️ Modificar
-                                              </CButton>
+                        <CTableDataCell className="text-center">
+                          <CButton
+                            color="danger"
+                            size="sm"
+                            onClick={() => navigate(`/proveedores/eliminar/${item.id}`)}
+                          >
+                            <CIcon icon={cilTrash}/>
+                          </CButton>
+                        </CTableDataCell>
+                        <CTableDataCell className="text-center">
+                          <CButton
+                            color="warning"
+                            size="sm"
+                            className="me-2"
+                            onClick={() => navigate(`/proveedores/update/${item.id}`)}
+                          >
+                            <CIcon icon={cilPencil}/>
+                          </CButton>
                         </CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
                 )}
-              </CTable> 
-
+              </CTable>
             </CCardBody>
           </CCard>
         </CCol>

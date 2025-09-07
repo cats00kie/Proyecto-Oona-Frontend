@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useParams, useNavigate } from 'react-router-dom'
 import { CCard, CCardBody, CCardHeader, CForm, CFormInput, CButton } from '@coreui/react'
+import { toast } from 'react-toastify'
 
 const UpdateProveedor = () => {
-  const { id } = useParams() // Obtenemos el ID desde la URL
+  const [searchParams] = useSearchParams()
+  const id = searchParams.get('id')
+
   const navigate = useNavigate()
 
-  const [nombre, setNombre] = useState('')
-  const [direccion, setDireccion] = useState('')
-  const [telefono, setTelefono] = useState('')
+  const [RazonSocial, setRazonSocial] = useState('')
+  const [Email, setEmail] = useState('')
+  const [Telefono, setTelefono] = useState('')
   const [errors, setErrors] = useState({ nombre: '', direccion: '', telefono: '' })
 
   // Traer los datos del proveedor al cargar la página
   useEffect(() => {
-    fetch(`http://localhost:8085/proveedores/${id}`, {
+    fetch(`https://100.27.84.204:8085/proveedores`, {
       headers: {
         'Content-Type': 'application/json',
         'X-userToken': localStorage.getItem('token'),
@@ -24,36 +28,39 @@ const UpdateProveedor = () => {
         return res.json()
       })
       .then((data) => {
-        setNombre(data.nombre)
-        setDireccion(data.direccion)
-        setTelefono(data.telefono)
+        const item = data.find((i) => i.id === id)
+        if (item) {
+          setRazonSocial(item.RazonSocial)
+          setEmail(item.Email)
+          setTelefono(item.Telefono)
+        }
       })
       .catch((err) => console.error(err))
-  }, [id])
+  }, [])
 
   // Función de validación
   const validate = () => {
     const newErrors = { nombre: '', direccion: '', telefono: '' }
     let isValid = true
 
-    if (!nombre.trim()) {
-      newErrors.nombre = 'El nombre no puede estar vacío'
+    if (!RazonSocial.trim()) {
+      newErrors.RazonSocial = 'El nombre no puede estar vacío'
       isValid = false
-    } else if (!/[a-zA-Z]/.test(nombre)) {
-      newErrors.nombre = 'El nombre debe contener al menos una letra'
-      isValid = false
-    }
-
-    if (!direccion.trim()) {
-      newErrors.direccion = 'La dirección no puede estar vacía'
+    } else if (!/[a-zA-Z]/.test(RazonSocial)) {
+      newErrors.RazonSocial = 'El nombre debe contener al menos una letra'
       isValid = false
     }
 
-    if (!telefono.trim()) {
-      newErrors.telefono = 'El teléfono no puede estar vacío'
+    if (!Email.trim()) {
+      newErrors.Email = 'La dirección no puede estar vacía'
       isValid = false
-    } else if (!/\d/.test(telefono)) {
-      newErrors.telefono = 'El teléfono debe contener al menos un número'
+    }
+
+    if (!Telefono.trim()) {
+      newErrors.Telefono = 'El teléfono no puede estar vacío'
+      isValid = false
+    } else if (!/\d/.test(Telefono)) {
+      newErrors.Telefono = 'El teléfono debe contener al menos un número'
       isValid = false
     }
 
@@ -65,18 +72,18 @@ const UpdateProveedor = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!validate()) return
-
-    fetch(`http://localhost:8085/proveedores/${id}`, {
+    fetch(`https://100.27.84.204:8085/proveedores`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         'X-userToken': localStorage.getItem('token'),
       },
-      body: JSON.stringify({ nombre, direccion, telefono }),
+      body: JSON.stringify({ RazonSocial, Telefono, Email, id }),
     })
       .then((res) => {
+        console.log(id);
         if (!res.ok) throw new Error('Error al actualizar proveedor')
-        return res.json()
+        else toast.success("Exito!");
       })
       .then(() => navigate('/proveedores'))
       .catch((err) => console.error(err))
@@ -89,30 +96,34 @@ const UpdateProveedor = () => {
         <CForm onSubmit={handleSubmit}>
           <CFormInput
             type="text"
-            label="Nombre"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+            label="Razon Social"
+            value={RazonSocial}
+            onChange={(e) => setRazonSocial(e.target.value)}
             className="mb-1"
           />
-          {errors.nombre && <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.nombre}</div>}
+          {errors.RazonSocial && (
+            <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.RazonSocial}</div>
+          )}
 
           <CFormInput
             type="text"
-            label="Dirección"
-            value={direccion}
-            onChange={(e) => setDireccion(e.target.value)}
+            label="Email"
+            value={Email}
+            onChange={(e) => setEmail(e.target.value)}
             className="mb-1"
           />
-          {errors.direccion && <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.direccion}</div>}
+          {errors.Email && <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.Email}</div>}
 
           <CFormInput
             type="text"
             label="Teléfono"
-            value={telefono}
+            value={Telefono}
             onChange={(e) => setTelefono(e.target.value)}
             className="mb-1"
           />
-          {errors.telefono && <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.telefono}</div>}
+          {errors.Telefono && (
+            <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.Telefono}</div>
+          )}
 
           <CButton type="submit" color="warning" className="mt-3">
             Guardar cambios

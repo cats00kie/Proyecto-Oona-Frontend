@@ -14,28 +14,12 @@ import {
   CButton,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilUser, cilPhone, cilEnvelopeClosed } from '@coreui/icons'
+import { cilUser, cilPhone, cilEnvelopeClosed, cilPen, cilPencil, cilTrash, cilPlus } from '@coreui/icons'
 import { useNavigate } from 'react-router-dom'
-
-  // Datos de ejemplo
-  const tableExample = [
-    {
-      id: '1',
-      razonSocial: 'Proveedor Ejemplo S.A.',
-      telefono: '+598 1234 5678',
-      email: 'contacto@proveedor.com',
-    },
-    {
-      id: '2',
-      razonSocial: 'Distribuidora XYZ',
-      telefono: '+598 8765 4321',
-      email: 'ventas@xyz.com',
-    },
-  ]
 
   const Proveedores = () => {
     const [proveedores, setProveedores] = useState([])
-    const navigate = useNavigate()
+    const navigator = useNavigate();
 
   useEffect(() => {
     fetch('https://100.27.84.204:8085/proveedores', {
@@ -51,6 +35,7 @@ import { useNavigate } from 'react-router-dom'
         return response.json()
       })
       .then((data) => {
+        console.log(data);
         setProveedores(data)
       })
       .catch((error) => {
@@ -63,8 +48,8 @@ import { useNavigate } from 'react-router-dom'
       <CRow>
         <CCol xs={12} md={12} lg={12} xl={12} xxl={12} className="mx-auto">
           <CCard className="mb-4 ">
-            <CCardHeader>Listado {' de '} Proveedores <CButton color="success" onClick={() => navigate('/proveedores/add')}>
-              ➕ Agregar
+            <CCardHeader>Listado {' de '} Proveedores <CButton color="success" onClick={() => navigator('/proveedores/add')} className="mx-3">
+              <CIcon icon={cilPlus}/> Agregar
             </CButton> </CCardHeader>
             <CCardBody>
               <CTable
@@ -92,24 +77,24 @@ import { useNavigate } from 'react-router-dom'
                     {proveedores.map((item, index) => (
                       <CTableRow key={index} className="align-middle">
                         <CTableDataCell className="text-center">{item.id}</CTableDataCell>
-                        <CTableDataCell className="text-center">{item.razonSocial}</CTableDataCell>
-                        <CTableDataCell className="text-center">{item.telefono}</CTableDataCell>
-                        <CTableDataCell className="text-center">{item.email}</CTableDataCell>
+                        <CTableDataCell className="text-center">{item.RazonSocial}</CTableDataCell>
+                        <CTableDataCell className="text-center">{item.Telefono}</CTableDataCell>
+                        <CTableDataCell className="text-center">{item.Email}</CTableDataCell>
                         <CTableDataCell className="text-center"><CButton
                         color="danger"
                         size="sm"
-                        onClick={() => navigate(`/proveedores/eliminar/${item.id}`)}
+                        onClick={() => navigator(`/proveedores/eliminar?id=${item.id}`)}
                       >
-                        🗑️ Eliminar
+                        <CIcon icon={cilTrash}/>
                       </CButton>
                       </CTableDataCell>
                         <CTableDataCell className="text-center"><CButton
                         color="warning"
                         size="sm"
                         className="me-2"
-                        onClick={() => navigate(`/proveedores/update/${item.id}`)}
+                        onClick={() => navigator(`/proveedores/update?id=${item.id}`)}
                       >
-                        ✏️ Modificar
+                        <CIcon icon={cilPencil}/>
                       </CButton>
                       </CTableDataCell>
                       </CTableRow>
