@@ -18,7 +18,7 @@ const AgregarProducto = () => {
   const [urlFoto, setUrlFoto] = useState('')
   const [proveedores, setProveedores] = useState([])
   const [proveedorSeleccionado, setProveedorSeleccionado] = useState('')
-  const [caracteristicas, setCaracteristicas] = useState([{ nombre: '', descripcion: '' }])
+  const [caracteristicas, setCaracteristicas] = useState([{ Nombre: '', Descripcion: '' }])
   const navigate = useNavigate()
 
   // cargar proveedores para el select
@@ -43,7 +43,7 @@ const AgregarProducto = () => {
   }
 
   const agregarCaracteristica = () => {
-    setCaracteristicas([...caracteristicas, { nombre: '', descripcion: '' }])
+    setCaracteristicas([...caracteristicas, { Nombre: '', Descripcion: '' }])
   }
 
   const handleSubmit = (e) => {
@@ -138,15 +138,15 @@ const AgregarProducto = () => {
               <CFormInput
                 type="text"
                 label="Nombre"
-                value={car.nombre}
-                onChange={(e) => handleCaracteristicaChange(index, 'nombre', e.target.value)}
+                value={car.Nombre}
+                onChange={(e) => handleCaracteristicaChange(index, 'Nombre', e.target.value)}
                 className="mb-2"
               />
               <CFormInput
                 type="text"
                 label="Descripción"
-                value={car.descripcion}
-                onChange={(e) => handleCaracteristicaChange(index, 'descripcion', e.target.value)}
+                value={car.Descripcion}
+                onChange={(e) => handleCaracteristicaChange(index, 'Descripcion', e.target.value)}
                 className="mb-2"
               />
               <CButton

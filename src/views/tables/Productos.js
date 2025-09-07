@@ -111,7 +111,7 @@ const Productos = () => {
       return
     }
 
-    if (!apiKey || apiKey === 'null') {
+    if (apiKey != null) {
       fetch('http://localhost:8085/productos', {
         headers: {
           'Content-Type': 'application/json',
@@ -228,7 +228,7 @@ const Productos = () => {
                         </CTableDataCell>
 
                         <CTableDataCell className="text-center">
-                          {item.proveedor?.nombre ?? '-'}
+                          {item.proveedor?.RazonSocial ?? '-'}
                         </CTableDataCell>
 
                         <CTableDataCell className="text-center">

@@ -73,7 +73,6 @@ const UpdateProveedor = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!validate()) return
-    
     fetch(`http://localhost:8085/proveedores`, {
     //fetch(`https://100.27.84.204:8085/proveedores`, {
       method: 'PUT',
