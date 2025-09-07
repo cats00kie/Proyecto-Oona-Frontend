@@ -196,7 +196,7 @@ const Dashboard = () => {
     }
 
     if (!apiKey || apiKey === 'null') {
-      fetch('http://localhost:8085/mercadoLibre?test=' + crypto.randomUUID(), {
+      fetch('https://100.27.84.204:8085/mercadoLibre?test=' + crypto.randomUUID(), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
