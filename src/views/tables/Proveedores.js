@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom'
     const navigator = useNavigate();
 
   useEffect(() => {
-    fetch('https://100.27.84.204:8085/proveedores', {
+    fetch('http://localhost:8085/proveedores', {
       headers: {
         'Content-Type': 'application/json',
         'X-userToken': localStorage.getItem('token'), /// si tu backend requiere auth

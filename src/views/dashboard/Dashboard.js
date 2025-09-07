@@ -182,8 +182,8 @@ const Dashboard = () => {
   ]
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    const apiKey = localStorage.getItem('apiKey')
+    const token = localStorage.getItem("token")
+    const apiKey = localStorage.getItem("apiKey")
 
     if (!token) {
       navigator('/login')
@@ -205,7 +205,7 @@ const Dashboard = () => {
       })
         .then((r) => r.json())
         .then((data) => {
-          localStorage.setItem('apiKey', data.apiKey)
+          localStorage.setItem("apiKey", data.apiKey)
           toast.success('Conectad@!')
         })
     } else {

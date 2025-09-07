@@ -26,7 +26,7 @@ const Login = () => {
   const navigator = useNavigate();
   const [habilitado, setHabilitado] = useState(true);
 
-  useEffect(() => {if(localStorage.getItem("apiKey") != null) navigator("/Dashboard")},[])
+  useEffect(() => {if(localStorage.getItem("apiKey") != null || localStorage.getItem("token") != null) navigator("/Dashboard")})
 
   useEffect(() => {
       if (usuario.trim() && password.trim()) {
@@ -35,7 +35,7 @@ const Login = () => {
   }, [usuario, password])
 
   const loginUsuario = () => {
-    fetch("https://100.27.84.204:8085/login", {
+    fetch("http://localhost:8085/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -50,17 +50,16 @@ const Login = () => {
                 return response.json();
             })
             .then(function (data) {
-                // console.log(data);
-    
+                console.log(data);
                 if (data.token != null) {
                     localStorage.setItem("token", data.token);
                     toast.success("Ingresad@!");
-                    navigator("/Dashboard");
     
                 } else {
                     toast.error(data.mensaje);
                 }
-            });   
+            })
+            .then(() => navigator('/Dashboard'));   
   }
 
   const cambiarUsuario = (e) => {
