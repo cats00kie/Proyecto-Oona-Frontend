@@ -302,7 +302,8 @@ const Productos = () => {
                             color="warning"
                             size="sm"
                             className="me-2"
-                            onClick={() => navigate(`/proveedores/update/${item.id}`)}
+                            onClick={() => navigate(`/productos/update?id=${item.id}`)}
+
                           >
                             <CIcon icon={cilPencil} />
                           </CButton>
