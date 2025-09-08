@@ -45,7 +45,7 @@ const AgregarProveedor = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    fetch('http://localhost:8085/proveedores', {
+    fetch('https://100.27.84.204:8085/proveedores', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
