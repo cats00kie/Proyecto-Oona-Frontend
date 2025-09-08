@@ -3,6 +3,7 @@ import { CCard, CCardBody, CCardHeader, CForm, CFormInput, CButton } from '@core
 import { useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 
+
 const AgregarProveedor = () => {
   const [RazonSocial, setRazonSocial] = useState('')
   const [Email, setEmail] = useState('')
@@ -45,7 +46,7 @@ const AgregarProveedor = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    fetch('http://localhost:8085/proveedores', {
+    fetch('https://100.27.84.204:8085/proveedores', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

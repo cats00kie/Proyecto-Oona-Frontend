@@ -43,6 +43,7 @@ const AgregarProducto = () => {
   }
 
   const agregarCaracteristica = () => {
+
     setCaracteristicas([...caracteristicas, { nombre: '', descripcion: '' }])
   }
 
@@ -139,6 +140,7 @@ const AgregarProducto = () => {
                 type="text"
                 label="Nombre"
                 value={car.nombre}
+
                 onChange={(e) => handleCaracteristicaChange(index, 'Nombre', e.target.value)}
                 className="mb-2"
               />
@@ -146,6 +148,7 @@ const AgregarProducto = () => {
                 type="text"
                 label="Descripción"
                 value={car.descripcion}
+
                 onChange={(e) => handleCaracteristicaChange(index, 'Descripcion', e.target.value)}
                 className="mb-2"
               />
