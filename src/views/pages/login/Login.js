@@ -114,7 +114,7 @@ const Login = () => {
                       <CRow>
                         <CCol xs={6}>
                           <CButton
-                            type="submit"
+                            type="button"
                             disabled={habilitado}
                             color="primary"
                             className="px-4"

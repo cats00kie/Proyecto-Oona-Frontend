@@ -272,12 +272,30 @@ const Productos = () => {
                         </CTableDataCell>
                         <CTableDataCell className="text-center">
                           <CButton
-                            color="danger"
-                            size="sm"
-                            onClick={() => navigate(`/proveedores/eliminar/${item.id}`)}
-                          >
-                            <CIcon icon={cilTrash} />
-                          </CButton>
+                          color="danger"
+                          size="sm"
+                          onClick={() => {
+                            if (window.confirm("¿Estás seguro que querés eliminar este producto?")) {
+                                fetch("http://localhost:8085/productos", {
+                              // fetch("https://100.27.84.204:8085/productos/"+ item.id, {
+                                method: 'DELETE',
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                  'X-userToken': localStorage.getItem('token'),
+                                },
+                                body: JSON.stringify(item),
+                              })
+                              .then((res) => {
+                                if (!res.ok) throw new Error("Error al eliminar")
+                                toast.success("Producto eliminado")
+                                setProductos(productos.filter(p => p.id !== item.id))
+                              })
+                              .catch(err => toast.error("No se pudo eliminar"))
+                            }
+                          }}
+                           >
+                          <CIcon icon={cilTrash}/>
+                        </CButton>
                         </CTableDataCell>
                         <CTableDataCell className="text-center">
                           <CButton
