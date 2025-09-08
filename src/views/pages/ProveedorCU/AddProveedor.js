@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { CCard, CCardBody, CCardHeader, CForm, CFormInput, CButton } from '@coreui/react'
 import { useNavigate } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 
 const AgregarProveedor = () => {
   const [RazonSocial, setRazonSocial] = useState('')

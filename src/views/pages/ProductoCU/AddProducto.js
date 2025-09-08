@@ -18,7 +18,7 @@ const AgregarProducto = () => {
   const [urlFoto, setUrlFoto] = useState('')
   const [proveedores, setProveedores] = useState([])
   const [proveedorSeleccionado, setProveedorSeleccionado] = useState('')
-  const [caracteristicas, setCaracteristicas] = useState([{ Nombre: '', Descripcion: '' }])
+  const [caracteristicas, setCaracteristicas] = useState([{ nombre: '', descripcion: '' }])
   const navigate = useNavigate()
 
   // cargar proveedores para el select
@@ -43,7 +43,7 @@ const AgregarProducto = () => {
   }
 
   const agregarCaracteristica = () => {
-    setCaracteristicas([...caracteristicas, { Nombre: '', Descripcion: '' }])
+    setCaracteristicas([...caracteristicas, { nombre: '', descripcion: '' }])
   }
 
   const handleSubmit = (e) => {
@@ -138,14 +138,14 @@ const AgregarProducto = () => {
               <CFormInput
                 type="text"
                 label="Nombre"
-                value={car.Nombre}
+                value={car.nombre}
                 onChange={(e) => handleCaracteristicaChange(index, 'Nombre', e.target.value)}
                 className="mb-2"
               />
               <CFormInput
                 type="text"
                 label="Descripción"
-                value={car.Descripcion}
+                value={car.descripcion}
                 onChange={(e) => handleCaracteristicaChange(index, 'Descripcion', e.target.value)}
                 className="mb-2"
               />
