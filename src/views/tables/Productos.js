@@ -157,6 +157,7 @@ const Productos = () => {
                   <CTableBody>
                     {productos.map((item, index) => (
                       <CTableRow key={index} className="align-middle">
+
                         <CTableDataCell className="text-center">{item.idMeli}</CTableDataCell>
 
                         <CTableDataCell className="text-center">
@@ -168,7 +169,9 @@ const Productos = () => {
                         <CTableDataCell className="text-center">
                           <CTable
                             align="center"
+
                             className="table-sm table-bordered mb-0 rounded"
+
                             responsive
                             hover
                           >

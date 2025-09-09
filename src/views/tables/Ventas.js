@@ -61,7 +61,6 @@ const Ventas = () => {
     <CRow>
       <CCol xs>
         <CCard className="mb-4">
-
           <CCardHeader>
             Listado de Ventas{' '}
             <CButton color="success" onClick={() => navigate('/ventas/add')} className="mx-3">

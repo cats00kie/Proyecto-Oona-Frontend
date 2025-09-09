@@ -130,30 +130,6 @@ const Login = () => {
           </CRow>
         </CContainer>
       </div>
-      {/* <div className='row row-cols-2'>
-        <div className="col-md-3 sm-12 position-absolute top-50 start-50 translate-middle">
-            <div className="login">
-                <div className="card">
-                    <div className="card-header">
-                    Login
-                    </div>
-                    <div className="card-body">
-                        <div className="form-group">
-                            <label htmlFor="usuario" className="control-label">Username</label>
-                            <input id="usuario" className="form-control" onChange={cambiarUsuario} />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="password" className="control-label">Password</label>
-                            <input type="password" id="password" className="form-control" onChange={cambiarPassword} />
-                        </div>
-                        <CButton type="submit" color="primary" className="px-4" disabled={habilitado} onClick={loginUsuario}>
-                          Login
-                        </CButton>
-                    </div>
-                    </div>
-            </div>
-        </div>
-        </div> */}
     </>
   )
 }

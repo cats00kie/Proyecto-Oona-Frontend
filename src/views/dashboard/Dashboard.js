@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import {
@@ -43,7 +44,9 @@ import MainChart from './MainChart'
 import Login from '../pages/login/Login'
 import { toast } from 'react-toastify'
 import { data, useNavigate } from 'react-router-dom'
+
 import { CChartBar } from '@coreui/react-chartjs'
+
 const url = window.location.href
 const match = url.match(/[?&]code=([^#&]+)/)
 
@@ -110,7 +113,6 @@ const Dashboard = () => {
         .catch((err) => console.error(err))
     }
   }, [])
-
   const formatDate = (dateStr) => {
     const date = new Date(dateStr)
     if (isNaN(date)) return 'Fecha inválida'

@@ -157,6 +157,7 @@ const Proveedores = () => {
                     ))}
                   </CTableBody>
                 )}
+
               </CTable>
             </CCardBody>
           </CCard>
