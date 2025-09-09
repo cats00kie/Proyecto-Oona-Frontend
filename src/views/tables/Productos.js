@@ -43,6 +43,9 @@ import {
   cilImage,
   cilDollar,
   cilFolder,
+  cilTrash,
+  cilPencil,
+  cilPlus,
 } from '@coreui/icons'
 
 import avatar1 from 'src/assets/images/avatars/1.jpg'
@@ -52,6 +55,7 @@ import avatar4 from 'src/assets/images/avatars/4.jpg'
 import avatar5 from 'src/assets/images/avatars/5.jpg'
 import avatar6 from 'src/assets/images/avatars/6.jpg'
 import react from 'src/assets/images/react.jpg'
+import { useNavigate } from 'react-router-dom'
 
 import WidgetsBrand from '../widgets/WidgetsBrand'
 import WidgetsDropdown from '../widgets/WidgetsDropdown'
@@ -64,48 +68,41 @@ const url = window.location.href
 const match = url.match(/[?&]code=([^#&]+)/)
 
 const Productos = () => {
-  //   const progressExample = [
-  //     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
-  //     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
-  //     { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
-  //     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
-  //     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
-  //   ]
-  
+
+
   const [productos, setProductos] = useState([])
   const [precios, setPrecios] = useState([])
   const [caracteristicas, setCarac] = useState([])
-
-  const tableExample = [
-    {
-      idMeli: 'MLU8327489327',
-      foto: { src: react },
-      nombre: 'Producto de Demo',
-      precio: '$700',
-      descripcion: 'Descripción del Producto',
-      proveedor: 'Ninguno',
-      categorias: [
-        {
-          nombre: 'Ejemplo',
-          descripcion: 'Categoria de ejemplo',
-        },
-      ],
-    },
-  ]
-
+  const navigate = useNavigate()
+ 
   useEffect(() => {
-    fetch('http://localhost:8085/productos?test=' + crypto.randomUUID(), {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-userToken': localStorage.getItem('token'),
-      },
-    }).then((response) => {
-      response.json().then((data) => {
-        console.log(data)
-        setProductos(data)
+    const token = localStorage.getItem('token')
+    const apiKey = localStorage.getItem('apiKey')
+
+    if (!token) {
+      navigator('/login')
+      return
+    }
+
+    if (!match) {
+      toast.error('No estás conectad@ a MELI')
+      return
+    }
+
+    if (apiKey != null) {
+      fetch('https://100.27.84.204:8085/productos', {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-userToken': localStorage.getItem('token'),
+        },
+      }).then((response) => {
+        response.json().then((data) => {
+
+          setProductos(data)
+        })
       })
-    })
-  }, []);
+    }
+  }, [])
 
   const formatDate = (dateStr) => {
     const date = new Date(dateStr)
@@ -123,11 +120,16 @@ const Productos = () => {
       <CRow>
         <CCol xs={12} md={12} lg={12} xl={12} xxl={12} className="mx-auto">
           <CCard className="mb-4 ">
-            <CCardHeader>Listado {' de '} Productos</CCardHeader>
+            <CCardHeader>
+              Listado {' de '} Productos{' '}
+              <CButton color="success" onClick={() => navigate('/productos/add')} className="mx-3">
+                <CIcon icon={cilPlus} /> Agregar
+              </CButton>
+            </CCardHeader>
             <CCardBody>
               <CTable
                 align="center"
-                className="mb-4 border border-secondary table-striped table-hover table-dark"
+                className="mb-4 border table-striped table-hover"
                 responsive
               >
                 <CTableHead className="text-nowrap">
@@ -146,6 +148,8 @@ const Productos = () => {
                     <CTableHeaderCell className="fw-bold text-center">
                       <CIcon icon={cilFolder} />
                     </CTableHeaderCell>
+                    <CTableHeaderCell className="fw-bold text-center">Borrar</CTableHeaderCell>
+                    <CTableHeaderCell className="fw-bold text-center">Modificar</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
 
@@ -165,7 +169,9 @@ const Productos = () => {
                         <CTableDataCell className="text-center">
                           <CTable
                             align="center"
-                            className="table-sm table-dark table-bordered mb-0 rounded"
+
+                            className="table-sm table-bordered mb-0 rounded"
+
                             responsive
                             hover
                           >
@@ -205,13 +211,13 @@ const Productos = () => {
                         </CTableDataCell>
 
                         <CTableDataCell className="text-center">
-                          {item.proveedor?.nombre ?? '-'}
+                          {item.proveedor?.RazonSocial ?? '-'}
                         </CTableDataCell>
 
                         <CTableDataCell className="text-center">
                           <CTable
                             align="center"
-                            className="table-sm table-dark table-bordered mb-0 rounded"
+                            className="table-sm table-bordered mb-0 rounded"
                             responsive
                             hover
                           >
@@ -247,12 +253,52 @@ const Productos = () => {
                             <div className="badge bg-success">Local</div>
                           )}
                         </CTableDataCell>
+                        <CTableDataCell className="text-center">
+                          <CButton
+                            color="danger"
+                            size="sm"
+                            onClick={() => {
+                              if (
+                                window.confirm('¿Estás seguro que querés eliminar este producto?')
+                              ) {
+                                fetch('https://100.27.84.204:8085/productos', {
+                                  // fetch("https://100.27.84.204:8085/productos/"+ item.id, {
+                                  method: 'DELETE',
+                                  headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-userToken': localStorage.getItem('token'),
+                                  },
+                                  body: JSON.stringify(item),
+                                })
+                                  .then((res) => {
+                                    if (!res.ok) throw new Error('Error al eliminar')
+                                    toast.success('Producto eliminado')
+                                    setProductos(productos.filter((p) => p.id !== item.id))
+                                  })
+                                  .catch((err) => toast.error('No se pudo eliminar'))
+                              }
+                            }}
+                          >
+                            <CIcon icon={cilTrash} />
+                                  
+                          </CButton>
+                        </CTableDataCell>
+                        <CTableDataCell className="text-center">
+                          <CButton
+                            color="warning"
+                            size="sm"
+                            className="me-2"
+                            onClick={() => navigate(`/productos/update?id=${item.id}`)}
+
+                          >
+                            <CIcon icon={cilPencil} />
+                          </CButton>
+                        </CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
                 )}
-              </CTable> 
-
+              </CTable>
             </CCardBody>
           </CCard>
         </CCol>

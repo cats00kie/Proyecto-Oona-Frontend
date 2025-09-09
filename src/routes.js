@@ -11,6 +11,16 @@ const Productos = React.lazy(() => import('./views/tables/Productos'))
 const Stock = React.lazy(() => import('./views/tables/Stock'))
 const Ventas = React.lazy(() => import('./views/tables/Ventas'))
 
+//Use Case
+const AddProveedor = React.lazy(() => import('./views/pages/ProveedorCU/AddProveedor'))
+const UpdateProveedor = React.lazy(() => import('./views/pages/ProveedorCU/UpdateProveedor'))
+const AddProducto = React.lazy(() => import('./views/pages/ProductoCU/AddProducto'))
+const UpdateProducto = React.lazy(() => import('./views/pages/ProductoCU/UpdateProducto'))
+const AddStock = React.lazy(() => import('./views/pages/StockCU/AddStock'))
+const UpdateStock = React.lazy(() => import('./views/pages/StockCU/UpdateStock'))
+const AddVenta = React.lazy(() => import('./views/pages/VentaCU/AddVenta'))
+const UpdateVenta = React.lazy(() => import('./views/pages/VentaCU/UpdateVenta'))
+
 // Base
 const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
 const Breadcrumbs = React.lazy(() => import('./views/base/breadcrumbs/Breadcrumbs'))
@@ -63,9 +73,17 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/estadisticas', name: 'Estadisticas', element: Estadisticas },
   { path: '/proveedores', name: 'Proveedores', element: Proveedores },
+  { path: '/proveedores/add', name: 'AddProveedor', element: AddProveedor },
+  { path: '/proveedores/update', name: 'UpdateProveedor', element: UpdateProveedor },
   { path: '/productos', name: 'Productos', element: Productos },
+  { path: '/productos/add', name: 'AddProducto', element: AddProducto },
+  { path: '/productos/update', name: 'UpdateProducto', element: UpdateProducto },
   { path: '/stock', name: 'Stock', element: Stock },
+  { path: '/stocks/add', name: 'AddStock', element: AddStock },
+  { path: '/stocks/update', name: 'UpdateStock', element: UpdateStock },
   { path: '/ventas', name: 'Ventas', element: Ventas },
+  { path: '/ventas/add', name: 'AddVentas', element: AddVenta },
+  { path: '/ventas/update', name: 'UpdateVentas', element: UpdateVenta },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },

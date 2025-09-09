@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CContainer,
@@ -28,10 +28,11 @@ import {
   cilWifiSignal0,
   cilWifiSignal4,
 } from '@coreui/icons'
+import { toast } from 'react-toastify'
 const AppHeader = () => {
   const headerRef = useRef()
   const { colorMode, setColorMode } = useColorModes('coreui-free-react-admin-template-theme')
-
+  const navigator = useNavigate();
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
@@ -42,6 +43,12 @@ const AppHeader = () => {
     })
   }, [])
 
+  const logout = () => {
+    localStorage.clear()
+    toast.info('Bye bye')
+    navigator('/Login')
+  }
+
   return (
     <CHeader position="sticky" className="mb-4 p-0" ref={headerRef}>
       <CContainer className="border-bottom px-4" fluid>
@@ -51,9 +58,10 @@ const AppHeader = () => {
         >
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
-        <CHeaderNav >
+
+        <CHeaderNav className="d-flex align-items-center gap-2">
           <CDropdown variant="nav-item" placement="bottom-end">
-            <CDropdownToggle caret={false}>
+            <CDropdownToggle caret={false} className="d-flex align-items-center">
               {colorMode === 'dark' ? (
                 <CIcon icon={cilMoon} size="lg" />
               ) : colorMode === 'auto' ? (
@@ -92,15 +100,26 @@ const AppHeader = () => {
               </CDropdownItem>
             </CDropdownMenu>
           </CDropdown>
-          <li className="nav-item py-0">
-            <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
-          </li>
-          <CNavItem >
-            <CNavLink className='d-flex align-items-center border border-1 border-success rounded-pill' href="https://auth.mercadolibre.com.uy/authorization?response_type=code&client_id=6568777871031299&redirect_uri=https://ant-needed-apparently.ngrok-free.app/">
-              <p className='me-2 fw-light my-0'>Conectarse/Actualizar</p>
-              <CIcon size="lg" icon={cilSignalCellular4}/>
+
+          <CNavItem>
+            <CNavLink
+              className="d-flex align-items-center border border-1 border-success rounded-pill px-3 py-1"
+              href="https://auth.mercadolibre.com.uy/authorization?response_type=code&client_id=6568777871031299&redirect_uri=https://54.91.166.104:3000/"
+            >
+              <p className="me-2 fw-light mb-0">Conectarse/Actualizar</p>
+              <CIcon size="lg" icon={cilSignalCellular4} />
             </CNavLink>
           </CNavItem>
+
+          {localStorage.getItem('token') != null && (
+            <li className="nav-item d-flex align-items-center">
+              <CNavLink className="nav-link text-dark" to="/">
+                <button type="button" className="btn btn-danger" onClick={logout}>
+                  Logout
+                </button>
+              </CNavLink>
+            </li>
+          )}
         </CHeaderNav>
       </CContainer>
     </CHeader>

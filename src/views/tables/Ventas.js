@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import classNames from 'classnames'
+import React, { useEffect, useState } from 'react'
 import {
   CAvatar,
   CCard,
@@ -13,31 +12,61 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
+  CButton,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilImage, cilFolder } from '@coreui/icons'
-import react from 'src/assets/images/react.jpg'
+import { cilImage, cilFolder, cilTrash, cilPencil, cilPlus } from '@coreui/icons'
+import reactImg from 'src/assets/images/react.jpg'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const Ventas = () => {
-  const tableExample = [
-    {
-      fecha: '01/10/2023',
-      precio: '$1200',
-      items_venta: [
-        {
-          producto: { nombre: 'Producto de nombre Ejemplo' },
-          cantidad: '12',
-          foto: { src: react },
+  const [ventas, setVentas] = useState([])
+  const navigate = useNavigate()
+  const url = window.location.href
+  const match = url.match(/[?&]code=([^#&]+)/)
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    const apiKey = localStorage.getItem('apiKey')
+
+    if (!token) {
+      navigator('/login')
+      return
+    }
+
+    if (!match) {
+      toast.error('No estás conectad@ a MELI')
+      return
+    }
+
+    if (apiKey != null) {
+      fetch('https://100.27.84.204:8085/ventas', {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-userToken': localStorage.getItem('token'),
         },
-      ],
-    },
-  ]
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error('Error al obtener ventas')
+          return res.json()
+        })
+        .then((data) => {
+          setVentas(data)
+        })
+        .catch((err) => console.error(err))
+    }
+  }, [])
 
   return (
     <CRow>
       <CCol xs>
         <CCard className="mb-4">
-          <CCardHeader>Listado de Ventas</CCardHeader>
+          <CCardHeader>
+            Listado de Ventas{' '}
+            <CButton color="success" onClick={() => navigate('/ventas/add')} className="mx-3">
+              <CIcon icon={cilPlus} /> Agregar
+            </CButton>{' '}
+          </CCardHeader>
           <CCardBody>
             <CTable align="middle" className="mb-0 border" hover responsive>
               <CTableHead className="text-nowrap">
@@ -53,23 +82,19 @@ const Ventas = () => {
                     Items
                   </CTableHeaderCell>
                   <CTableHeaderCell className="bg-body-tertiary text-center">
-                    <CIcon icon={cilFolder} />
+                    Borrar
+                  </CTableHeaderCell>
+                  <CTableHeaderCell className="bg-body-tertiary text-center">
+                    Modificar
                   </CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
               <CTableBody>
-                {tableExample.map((item, index) => (
+                {ventas.map((venta, index) => (
                   <CTableRow key={index}>
-                    <CTableDataCell className="text-center">
-                      <div>{item.idMeli}</div>
-                    </CTableDataCell>
-
-                    <CTableDataCell className="text-center">
-                      <div>{item.fecha}</div>
-                    </CTableDataCell>
-                    <CTableDataCell className="text-center">
-                      <div>{item.precio}</div>
-                    </CTableDataCell>
+                    <CTableDataCell className="text-center">{venta.id}</CTableDataCell>
+                    <CTableDataCell className="text-center">{venta.fecha}</CTableDataCell>
+                    <CTableDataCell className="text-center">{venta.precioTotal}</CTableDataCell>
                     <CTableDataCell className="text-center">
                       <CTable align="middle" className="mb-0 border" hover responsive>
                         <CTableHead className="text-nowrap">
@@ -78,24 +103,16 @@ const Ventas = () => {
                               Producto
                             </CTableHeaderCell>
                             <CTableHeaderCell className="bg-body-tertiary text-center">
-                              <CIcon icon={cilImage} />
-                            </CTableHeaderCell>
-                            <CTableHeaderCell className="bg-body-tertiary">
                               Cantidad
                             </CTableHeaderCell>
                           </CTableRow>
                         </CTableHead>
                         <CTableBody>
-                          {item.items_venta.map((categoria, idx) => (
+                          {venta.items.map((item, idx) => (
                             <CTableRow key={idx}>
-                              <CTableDataCell>
-                                <div>{categoria.producto.nombre}</div>
-                              </CTableDataCell>
+                              <CTableDataCell>{item.producto.nombre}</CTableDataCell>
                               <CTableDataCell className="text-center">
-                                <CAvatar size="md" src={categoria.foto.src} />
-                              </CTableDataCell>
-                              <CTableDataCell>
-                                <div>{categoria.cantidad}</div>
+                                {item.cantidad}
                               </CTableDataCell>
                             </CTableRow>
                           ))}
@@ -103,7 +120,40 @@ const Ventas = () => {
                       </CTable>
                     </CTableDataCell>
                     <CTableDataCell className="text-center">
-                      {item.idMeli != null ? <div>No es Local</div> : <div>Local</div>}
+                      <CButton
+                        color="danger"
+                        size="sm"
+                        onClick={() => {
+                          if (window.confirm('¿Estás seguro que querés eliminar esta venta?')) {
+                            fetch('https://100.27.84.204:8085/ventas', {
+                              method: 'DELETE',
+                              headers: {
+                                'Content-Type': 'application/json',
+                                'X-userToken': localStorage.getItem('token'),
+                              },
+                              body: JSON.stringify(venta),
+                            })
+                              .then((res) => {
+                                if (!res.ok) throw new Error('Error al eliminar')
+                                toast.success('Venta eliminada')
+                                setVentas(ventas.filter((p) => p.id !== venta.id))
+                              })
+                              .catch((err) => toast.error('No se pudo eliminar'))
+                          }
+                        }}
+                      >
+                        <CIcon icon={cilTrash} />
+                      </CButton>
+                    </CTableDataCell>
+                    <CTableDataCell className="text-center">
+                      <CButton
+                        color="warning"
+                        size="sm"
+                        className="me-2"
+                        onClick={() => navigate(`/ventas/update?id=${venta.id}`)}
+                      >
+                        <CIcon icon={cilPencil} />
+                      </CButton>
                     </CTableDataCell>
                   </CTableRow>
                 ))}
