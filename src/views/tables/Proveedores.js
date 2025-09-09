@@ -140,6 +140,7 @@ const Proveedores = () => {
                             }}
                           >
                             <CIcon icon={cilTrash} />
+
                           </CButton>
                         </CTableDataCell>
                         <CTableDataCell className="text-center">

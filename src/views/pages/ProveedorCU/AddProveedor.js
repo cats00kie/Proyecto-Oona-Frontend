@@ -3,11 +3,13 @@ import { CCard, CCardBody, CCardHeader, CForm, CFormInput, CButton } from '@core
 import { useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 
+
 const AgregarProveedor = () => {
   const [RazonSocial, setRazonSocial] = useState('')
   const [Email, setEmail] = useState('')
   const [Telefono, setTelefono] = useState('')
   const navigate = useNavigate()
+
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -40,6 +42,7 @@ const AgregarProveedor = () => {
             required
             className="mb-3"
           />
+
           <CFormInput
             type="text"
             label="E-mail"
@@ -48,6 +51,7 @@ const AgregarProveedor = () => {
             required
             className="mb-3"
           />
+
           <CFormInput
             type="text"
             label="Teléfono"
@@ -56,6 +60,7 @@ const AgregarProveedor = () => {
             required
             className="mb-3"
           />
+
           <CButton type="submit" color="success">
             Guardar
           </CButton>

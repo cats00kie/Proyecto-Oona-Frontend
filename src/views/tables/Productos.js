@@ -69,6 +69,7 @@ const match = url.match(/[?&]code=([^#&]+)/)
 
 const Productos = () => {
 
+
   const [productos, setProductos] = useState([])
   const [precios, setPrecios] = useState([])
   const [caracteristicas, setCarac] = useState([])
@@ -96,6 +97,7 @@ const Productos = () => {
         },
       }).then((response) => {
         response.json().then((data) => {
+
           setProductos(data)
         })
       })
@@ -284,6 +286,7 @@ const Productos = () => {
                             size="sm"
                             className="me-2"
                             onClick={() => navigate(`/productos/update?id=${item.id}`)}
+
                           >
                             <CIcon icon={cilPencil} />
                           </CButton>

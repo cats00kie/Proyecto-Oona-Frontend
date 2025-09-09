@@ -81,6 +81,7 @@ const UpdateProveedor = () => {
       body: JSON.stringify({ RazonSocial, Telefono, Email, id }),
     })
       .then((res) => {
+        console.log(id);
         if (!res.ok) throw new Error('Error al actualizar proveedor')
         else toast.success("Exito!");
       })

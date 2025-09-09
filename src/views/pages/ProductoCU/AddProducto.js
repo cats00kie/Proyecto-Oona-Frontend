@@ -51,6 +51,7 @@ const AgregarProducto = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
 
+
     const precio = {
       fecha: new Date().toISOString(),
       Valor: parseFloat(Valor),

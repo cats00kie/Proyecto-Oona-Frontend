@@ -24,8 +24,6 @@ const ModificarProducto = () => {
   const id = searchParams.get('id')
   const [valor, setValor] = useState('')
   const [Moneda, setMoneda] = useState('')
-
-  // cargar proveedores para el select
   useEffect(() => {
     fetch('https://100.27.84.204:8085/proveedores', {
       headers: {
