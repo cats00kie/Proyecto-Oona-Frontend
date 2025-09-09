@@ -8,44 +8,10 @@ const AgregarProveedor = () => {
   const [Email, setEmail] = useState('')
   const [Telefono, setTelefono] = useState('')
   const navigate = useNavigate()
-  const [errors, setErrors] = useState({ nombre: '', direccion: '', telefono: '' })
-
-   // Función de validación
-  const validate = () => {
-    const newErrors = { nombre: '', direccion: '', telefono: '' }
-    let isValid = true
-
-    // // Validación de nombre
-    // if (!razonSocial.trim()) {
-    //   newErrors.razonSocial = 'El nombre no puede estar vacío'
-    //   isValid = false
-    // } else if (!/[a-zA-Z]/.test(razonSocial)) {
-    //   newErrors.razonSocial = 'El nombre debe contener al menos una letra'
-    //   isValid = false
-    // }
-
-    // // Validación de dirección
-    // if (!email.trim()) {
-    //   newErrors.email = 'La dirección no puede estar vacía'
-    //   isValid = false
-    // }
-
-    // // Validación de teléfono
-    // if (!telefono.trim()) {
-    //   newErrors.telefono = 'El teléfono no puede estar vacío'
-    //   isValid = false
-    // } else if (!/\d/.test(telefono)) {
-    //   newErrors.telefono = 'El teléfono debe contener al menos un número'
-    //   isValid = false
-    // }
-
-    setErrors(newErrors)
-    return isValid
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    fetch('http://localhost:8085/proveedores', {
+    fetch('https://100.27.84.204:8085/proveedores', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -74,7 +40,6 @@ const AgregarProveedor = () => {
             required
             className="mb-3"
           />
-          {errors.RazonSocial && <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.RazonSocial}</div>}
           <CFormInput
             type="text"
             label="E-mail"
@@ -83,7 +48,6 @@ const AgregarProveedor = () => {
             required
             className="mb-3"
           />
-          {errors.Email && <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.Email}</div>}
           <CFormInput
             type="text"
             label="Teléfono"
@@ -92,7 +56,6 @@ const AgregarProveedor = () => {
             required
             className="mb-3"
           />
-          {errors.Telefono && <div style={{ color: 'red', fontSize: '0.8rem' }}>{errors.Telefono}</div>}
           <CButton type="submit" color="success">
             Guardar
           </CButton>

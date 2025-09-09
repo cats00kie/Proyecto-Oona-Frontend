@@ -22,11 +22,12 @@ const ModificarProducto = () => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const id = searchParams.get('id')
-
+  const [valor, setValor] = useState('')
+  const [Moneda, setMoneda] = useState('')
 
   // cargar proveedores para el select
   useEffect(() => {
-    fetch('http://localhost:8085/proveedores', {
+    fetch('https://100.27.84.204:8085/proveedores', {
       headers: {
         'Content-Type': 'application/json',
         'X-userToken': localStorage.getItem('token'),
@@ -50,22 +51,24 @@ const ModificarProducto = () => {
     }
 
     if (apiKey != null) {
-      fetch('http://localhost:8085/productos', {
+      fetch('https://100.27.84.204:8085//productos', {
         headers: {
           'Content-Type': 'application/json',
           'X-userToken': localStorage.getItem('token'),
         },
       }).then((response) => {
         response.json().then((data) => {
-          console.log(data)
           const item = data.find((i) => i.id === id)
+          const ultimoPrecio = item.precios[item.precios.length - 1]
           if (item) {
-          setProveedorSeleccionado(item.proveedor)
-          setNombre(item.nombre)
-          setDescripcion(item.descripcion)
-          setCaracteristicas(item.caracteristicas)
-          setUrlFoto(item.urlFoto)
-         }
+            setProveedorSeleccionado(item.proveedor)
+            setNombre(item.nombre)
+            setDescripcion(item.descripcion)
+            setCaracteristicas(item.caracteristicas)
+            setUrlFoto(item.urlFoto)
+            setValor(ultimoPrecio.valor?.toString() || '')
+            setMoneda(ultimoPrecio.moneda || '')
+          }
         })
       })
     }
@@ -85,18 +88,21 @@ const ModificarProducto = () => {
     e.preventDefault()
 
     const proveedor = proveedores.find((p) => p.id.toString() === proveedorSeleccionado)
-    console.log(proveedor)
+    const precioActualizado = {
+      Fecha: new Date().toISOString(),
+      Valor: parseFloat(valor),
+      Moneda,
+    }
     const producto = {
       id,
       urlFoto,
       proveedor,
       caracteristicas,
-      precios: [],
+      precios: [precioActualizado],
       nombre,
       descripcion,
     }
-    console.log('Producto a enviar:', JSON.stringify(producto, null, 2))
-    fetch('http://localhost:8085/productos', {
+    fetch('https://100.27.84.204:8085/productos', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -118,7 +124,7 @@ const ModificarProducto = () => {
   return (
     <CCard>
       <CCardHeader>
-        <h2>Agregar Producto</h2>
+        <h2>Modificar Producto</h2>
       </CCardHeader>
       <CCardBody>
         <CForm onSubmit={handleSubmit}>
@@ -147,10 +153,25 @@ const ModificarProducto = () => {
             onChange={(e) => setUrlFoto(e.target.value)}
             className="mb-3"
           />
+          <CFormInput
+            type="number"
+            step="0.01"
+            label="Precio"
+            value={valor}
+            onChange={(e) => setValor(e.target.value)}
+            className="mb-3"
+          />
 
+          <CFormSelect value={Moneda} onChange={(e) => setMoneda(e.target.value)} className="mb-3">
+            <option value="">-- Seleccioná moneda --</option>
+            <option value="UYU">UYU</option>
+            <option value="USD">USD</option>
+            <option value="RBR">RBR</option>
+              
+          </CFormSelect>
           <CFormSelect
             label="Proveedor"
-            value={proveedorSeleccionado.RazonSocial}
+            value={proveedorSeleccionado}
             onChange={(e) => setProveedorSeleccionado(e.target.value)}
             required
             className="mb-3"

@@ -38,7 +38,7 @@ const Login = () => {
   }, [usuario, password])
 
   const loginUsuario = () => {
-    fetch('http://localhost:8085/login', {
+    fetch('https://100.27.84.204:8085/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -49,11 +49,9 @@ const Login = () => {
       }),
     })
       .then(function (response) {
-        // console.log(response);
         return response.json()
       })
       .then(function (data) {
-        console.log(data)
         if (data.token != null) {
           localStorage.setItem('token', data.token)
           toast.success('Ingresad@!')
