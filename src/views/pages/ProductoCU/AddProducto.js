@@ -19,11 +19,13 @@ const AgregarProducto = () => {
   const [proveedores, setProveedores] = useState([])
   const [proveedorSeleccionado, setProveedorSeleccionado] = useState('')
   const [caracteristicas, setCaracteristicas] = useState([{ nombre: '', descripcion: '' }])
+  const [Valor, setValor] = useState('')
+  const [Moneda, setMoneda] = useState('')
   const navigate = useNavigate()
 
   // cargar proveedores para el select
   useEffect(() => {
-    fetch('http://localhost:8085/proveedores', {
+    fetch('https://100.27.84.204:8085//proveedores', {
       headers: {
         'Content-Type': 'application/json',
         'X-userToken': localStorage.getItem('token'),
@@ -43,25 +45,28 @@ const AgregarProducto = () => {
   }
 
   const agregarCaracteristica = () => {
-
     setCaracteristicas([...caracteristicas, { nombre: '', descripcion: '' }])
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
+
+    const precio = {
+      fecha: new Date().toISOString(),
+      Valor: parseFloat(Valor),
+      Moneda,
+    }
     const proveedor = proveedores.find((p) => p.id.toString() === proveedorSeleccionado)
-    console.log(proveedor)
     const producto = {
       urlFoto,
       proveedor,
       caracteristicas,
-      precios: [],
+      precios: [precio],
       nombre,
       descripcion,
     }
-    console.log('Producto a enviar:', JSON.stringify(producto, null, 2))
-    fetch('http://localhost:8085/productos', {
+    fetch('https://100.27.84.204:8085/productos', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -112,7 +117,22 @@ const AgregarProducto = () => {
             onChange={(e) => setUrlFoto(e.target.value)}
             className="mb-3"
           />
+          <CFormInput
+            type="number"
+            step="0.01"
+            label="Precio"
+            value={Valor}
+            onChange={(e) => setValor(e.target.value)}
+            className="mb-3"
+          />
 
+          <CFormSelect value={Moneda} onChange={(e) => setMoneda(e.target.value)} className="mb-3">
+            <option value="">-- Seleccioná moneda --</option>
+            <option value="UYU">UYU</option>
+            <option value="USD">USD</option>
+            <option value="RBR">RBR</option>
+              
+          </CFormSelect>
           <CFormSelect
             label="Proveedor"
             value={proveedorSeleccionado}
@@ -140,16 +160,14 @@ const AgregarProducto = () => {
                 type="text"
                 label="Nombre"
                 value={car.nombre}
-
-                onChange={(e) => handleCaracteristicaChange(index, 'Nombre', e.target.value)}
+                onChange={(e) => handleCaracteristicaChange(index, 'nombre', e.target.value)}
                 className="mb-2"
               />
               <CFormInput
                 type="text"
                 label="Descripción"
                 value={car.descripcion}
-
-                onChange={(e) => handleCaracteristicaChange(index, 'Descripcion', e.target.value)}
+                onChange={(e) => handleCaracteristicaChange(index, 'descripcion', e.target.value)}
                 className="mb-2"
               />
               <CButton

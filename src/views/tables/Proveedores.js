@@ -29,27 +29,42 @@ import { toast } from 'react-toastify'
 const Proveedores = () => {
   const [proveedores, setProveedores] = useState([])
   const navigator = useNavigate()
-
+  const url = window.location.href
+  const match = url.match(/[?&]code=([^#&]+)/)
   useEffect(() => {
-    fetch('http://localhost:8085/proveedores', {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-userToken': localStorage.getItem('token'), /// si tu backend requiere auth
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Error al obtener proveedores')
-        }
-        return response.json()
+    const token = localStorage.getItem('token')
+    const apiKey = localStorage.getItem('apiKey')
+
+    if (!token) {
+      navigator('/login')
+      return
+    }
+
+    if (!match) {
+      toast.error('No estás conectad@ a MELI')
+      return
+    }
+
+    if (apiKey != null) {
+      fetch('https://100.27.84.204:8085/proveedores', {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-userToken': localStorage.getItem('token'), /// si tu backend requiere auth
+        },
       })
-      .then((data) => {
-        console.log(data)
-        setProveedores(data)
-      })
-      .catch((error) => {
-        console.error('Error en fetch:', error)
-      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Error al obtener proveedores')
+          }
+          return response.json()
+        })
+        .then((data) => {
+          setProveedores(data)
+        })
+        .catch((error) => {
+          console.error('Error en fetch:', error)
+        })
+    }
   }, [])
 
   return (
@@ -70,7 +85,7 @@ const Proveedores = () => {
             <CCardBody>
               <CTable
                 align="center"
-                className="mb-4 border border-secondary table-striped table-hover table-dark"
+                className="mb-4 border table-striped table-hover"
                 responsive
               >
                 <CTableHead className="text-nowrap">
@@ -85,6 +100,8 @@ const Proveedores = () => {
                     <CTableHeaderCell className="fw-bold text-center">
                       <CIcon icon={cilEnvelopeClosed} /> Email
                     </CTableHeaderCell>
+                    <CTableHeaderCell className="fw-bold text-center">Borrar</CTableHeaderCell>
+                    <CTableHeaderCell className="fw-bold text-center">Modificar</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
 
@@ -104,7 +121,7 @@ const Proveedores = () => {
                               if (
                                 window.confirm('¿Estás seguro que querés eliminar este proveedor?')
                               ) {
-                                fetch('http://localhost:8085/proveedores', {
+                                fetch('https://100.27.84.204:8085/proveedores', {
                                   // fetch("https://100.27.84.204:8085/productos/"+ item.id, {
                                   method: 'DELETE',
                                   headers: {
@@ -123,7 +140,7 @@ const Proveedores = () => {
                             }}
                           >
                             <CIcon icon={cilTrash} />
-                                  
+
                           </CButton>
                         </CTableDataCell>
                         <CTableDataCell className="text-center">

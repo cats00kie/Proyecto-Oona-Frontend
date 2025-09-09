@@ -171,7 +171,7 @@ const AppHeader = () => {
           <CNavItem>
             <CNavLink
               className="d-flex align-items-center border border-1 border-success rounded-pill px-3 py-1"
-              href="https://auth.mercadolibre.com.uy/authorization?response_type=code&client_id=6568777871031299&redirect_uri=https://ant-needed-apparently.ngrok-free.app/"
+              href="https://auth.mercadolibre.com.uy/authorization?response_type=code&client_id=6568777871031299&redirect_uri=https://54.91.166.104:3000/"
             >
               <p className="me-2 fw-light mb-0">Conectarse/Actualizar</p>
               <CIcon size="lg" icon={cilSignalCellular4} />

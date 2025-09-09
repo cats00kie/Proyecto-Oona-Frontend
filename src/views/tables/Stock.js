@@ -12,32 +12,57 @@ import {
   CTableHead,
   CTableHeaderCell,
   CTableRow,
-  CButton
+  CButton,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilFactory, cilUser, cilStorage, cilImage, cilFolder, cilTrash, cilPencil, cilPlus } from '@coreui/icons'
+import {
+  cilFactory,
+  cilUser,
+  cilStorage,
+  cilImage,
+  cilFolder,
+  cilTrash,
+  cilPencil,
+  cilPlus,
+} from '@coreui/icons'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const Stock = () => {
   const [stocks, setStocks] = useState([])
   const navigate = useNavigate()
-
+  const url = window.location.href
+  const match = url.match(/[?&]code=([^#&]+)/)
   useEffect(() => {
-    fetch('https://100.27.84.204:8085/stocks', {
-      headers: {
-        'Content-Type': 'application/json',
-        'X-userToken': localStorage.getItem('token'),
-      },
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error('Error al obtener stocks')
-        return response.json()
+    const token = localStorage.getItem('token')
+    const apiKey = localStorage.getItem('apiKey')
+
+    if (!token) {
+      navigator('/login')
+      return
+    }
+
+    if (!match) {
+      toast.error('No estás conectad@ a MELI')
+      return
+    }
+
+    if (apiKey != null) {
+      fetch('https://100.27.84.204:8085/stocks', {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-userToken': localStorage.getItem('token'),
+        },
       })
-      .then((data) => {
-        console.log(data)
-        setStocks(data)
-      })
-      .catch((err) => console.error(err))
+        .then((response) => {
+          if (!response.ok) throw new Error('Error al obtener stocks')
+          return response.json()
+        })
+        .then((data) => {
+          setStocks(data)
+        })
+        .catch((err) => console.error(err))
+    }
   }, [])
 
   const formatDate = (dateStr) => {
@@ -54,13 +79,16 @@ const Stock = () => {
       <CRow>
         <CCol xs={12}>
           <CCard className="mb-4">
-            <CCardHeader>Listado {' de '} Stock <CButton color="success" onClick={() => navigate('/proveedores/add')} className="mx-3">
-                          <CIcon icon={cilPlus}/> Agregar
-                        </CButton> </CCardHeader>
+            <CCardHeader>
+              Listado {' de '} Stock{' '}
+              <CButton color="success" onClick={() => navigate('/stocks/add')} className="mx-3">
+                <CIcon icon={cilPlus} /> Agregar
+              </CButton>{' '}
+            </CCardHeader>
             <CCardBody>
               <CTable
                 align="center"
-                className="mb-4 border border-secondary table-striped table-hover table-dark"
+                className="mb-4 border table-striped table-hover"
                 responsive
               >
                 <CTableHead className="text-nowrap">
@@ -82,6 +110,8 @@ const Stock = () => {
                     <CTableHeaderCell className="fw-bold text-center">
                       <CIcon icon={cilFolder} /> Precios
                     </CTableHeaderCell>
+                    <CTableHeaderCell className="fw-bold text-center">Borrar</CTableHeaderCell>
+                    <CTableHeaderCell className="fw-bold text-center">Modificar</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
 
@@ -112,7 +142,7 @@ const Stock = () => {
                         <CTableDataCell className="text-center">
                           <CTable
                             align="center"
-                            className="table-sm table-dark table-bordered mb-0 rounded"
+                            className="table-sm table-bordered mb-0 rounded"
                             responsive
                             hover
                           >
@@ -146,22 +176,41 @@ const Stock = () => {
                             </CTableBody>
                           </CTable>
                         </CTableDataCell>
-                        <CTableDataCell className="text-center"><CButton
-                                                color="danger"
-                                                size="sm"
-                                                onClick={() => navigate(`/proveedores/eliminar/${item.id}`)}
-                                              >
-                                                <CIcon icon={cilTrash}/>
-                                              </CButton>
-                                              </CTableDataCell>
-                                                <CTableDataCell className="text-center"><CButton
-                                                color="warning"
-                                                size="sm"
-                                                className="me-2"
-                                                onClick={() => navigate(`/proveedores/update/${item.id}`)}
-                                              >
-                                                <CIcon icon={cilPencil}/>
-                                              </CButton>
+                        <CTableDataCell className="text-center">
+                          <CButton
+                            color="danger"
+                            size="sm"
+                            onClick={() => {
+                              if (window.confirm('¿Estás seguro que querés eliminar este stock?')) {
+                                fetch('https://100.27.84.204:8085/stocks', {
+                                  method: 'DELETE',
+                                  headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-userToken': localStorage.getItem('token'),
+                                  },
+                                  body: JSON.stringify(item),
+                                })
+                                  .then((res) => {
+                                    if (!res.ok) throw new Error('Error al eliminar')
+                                    toast.success('Stock eliminado')
+                                    setStocks(stocks.filter((p) => p.id !== item.id))
+                                  })
+                                  .catch((err) => toast.error('No se pudo eliminar'))
+                              }
+                            }}
+                          >
+                            <CIcon icon={cilTrash} />
+                          </CButton>
+                        </CTableDataCell>
+                        <CTableDataCell className="text-center">
+                          <CButton
+                            color="warning"
+                            size="sm"
+                            className="me-2"
+                            onClick={() => navigate(`/stocks/update?id=${item.id}`)}
+                          >
+                            <CIcon icon={cilPencil} />
+                          </CButton>
                         </CTableDataCell>
                       </CTableRow>
                     ))}

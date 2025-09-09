@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import {
   CAvatar,
@@ -20,26 +20,14 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
-  cibCcAmex,
-  cibCcApplePay,
-  cibCcMastercard,
-  cibCcPaypal,
-  cibCcStripe,
-  cibCcVisa,
-  cibGoogle,
-  cibFacebook,
-  cibLinkedin,
-  cifBr,
-  cifEs,
-  cifFr,
-  cifIn,
-  cifPl,
-  cifUs,
-  cibTwitter,
-  cilCloudDownload,
-  cilPeople,
+  cilFactory,
   cilUser,
-  cilUserFemale,
+  cilStorage,
+  cilImage,
+  cilFolder,
+  cilTrash,
+  cilPencil,
+  cilPlus,
 } from '@coreui/icons'
 
 import avatar1 from 'src/assets/images/avatars/1.jpg'
@@ -55,132 +43,13 @@ import MainChart from './MainChart'
 import Login from '../pages/login/Login'
 import { toast } from 'react-toastify'
 import { data, useNavigate } from 'react-router-dom'
+import { CChartBar } from '@coreui/react-chartjs'
 const url = window.location.href
 const match = url.match(/[?&]code=([^#&]+)/)
 
 const Dashboard = () => {
   const navigator = useNavigate()
-  const progressExample = [
-    { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
-    { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
-    { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
-    { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
-    { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
-  ]
-
-  const progressGroupExample1 = [
-    { title: 'Monday', value1: 34, value2: 78 },
-    { title: 'Tuesday', value1: 56, value2: 94 },
-    { title: 'Wednesday', value1: 12, value2: 67 },
-    { title: 'Thursday', value1: 43, value2: 91 },
-    { title: 'Friday', value1: 22, value2: 73 },
-    { title: 'Saturday', value1: 53, value2: 82 },
-    { title: 'Sunday', value1: 9, value2: 69 },
-  ]
-
-  const progressGroupExample2 = [
-    { title: 'Male', icon: cilUser, value: 53 },
-    { title: 'Female', icon: cilUserFemale, value: 43 },
-  ]
-
-  const progressGroupExample3 = [
-    { title: 'Organic Search', icon: cibGoogle, percent: 56, value: '191,235' },
-    { title: 'Facebook', icon: cibFacebook, percent: 15, value: '51,223' },
-    { title: 'Twitter', icon: cibTwitter, percent: 11, value: '37,564' },
-    { title: 'LinkedIn', icon: cibLinkedin, percent: 8, value: '27,319' },
-  ]
-
-  const tableExample = [
-    {
-      avatar: { src: avatar1, status: 'success' },
-      user: {
-        name: 'Yiorgos Avraamu',
-        new: true,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'USA', flag: cifUs },
-      usage: {
-        value: 50,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'success',
-      },
-      payment: { name: 'Mastercard', icon: cibCcMastercard },
-      activity: '10 sec ago',
-    },
-    {
-      avatar: { src: avatar2, status: 'danger' },
-      user: {
-        name: 'Avram Tarasios',
-        new: false,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'Brazil', flag: cifBr },
-      usage: {
-        value: 22,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'info',
-      },
-      payment: { name: 'Visa', icon: cibCcVisa },
-      activity: '5 minutes ago',
-    },
-    {
-      avatar: { src: avatar3, status: 'warning' },
-      user: { name: 'Quintin Ed', new: true, registered: 'Jan 1, 2023' },
-      country: { name: 'India', flag: cifIn },
-      usage: {
-        value: 74,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'warning',
-      },
-      payment: { name: 'Stripe', icon: cibCcStripe },
-      activity: '1 hour ago',
-    },
-    {
-      avatar: { src: avatar4, status: 'secondary' },
-      user: { name: 'Enéas Kwadwo', new: true, registered: 'Jan 1, 2023' },
-      country: { name: 'France', flag: cifFr },
-      usage: {
-        value: 98,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'danger',
-      },
-      payment: { name: 'PayPal', icon: cibCcPaypal },
-      activity: 'Last month',
-    },
-    {
-      avatar: { src: avatar5, status: 'success' },
-      user: {
-        name: 'Agapetus Tadeáš',
-        new: true,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'Spain', flag: cifEs },
-      usage: {
-        value: 22,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'primary',
-      },
-      payment: { name: 'Google Wallet', icon: cibCcApplePay },
-      activity: 'Last week',
-    },
-    {
-      avatar: { src: avatar6, status: 'danger' },
-      user: {
-        name: 'Friderik Dávid',
-        new: true,
-        registered: 'Jan 1, 2023',
-      },
-      country: { name: 'Poland', flag: cifPl },
-      usage: {
-        value: 43,
-        period: 'Jun 11, 2023 - Jul 10, 2023',
-        color: 'success',
-      },
-      payment: { name: 'Amex', icon: cibCcAmex },
-      activity: 'Last week',
-    },
-  ]
-
+  const [stocks, setStocks] = useState([])
   useEffect(() => {
     const token = localStorage.getItem("token")
     const apiKey = localStorage.getItem("apiKey")
@@ -208,130 +77,232 @@ const Dashboard = () => {
           localStorage.setItem("apiKey", data.apiKey)
           toast.success('Conectad@!')
         })
+        .then(async () => {
+          await fetch('https://100.27.84.204:8085/stocks', {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-userToken': localStorage.getItem('token'),
+            },
+          })
+            .then((response) => {
+              if (!response.ok) throw new Error('Error al obtener stocks')
+              return response.json()
+            })
+            .then((data) => {
+              setStocks(data)
+            })
+            .catch((err) => console.error(err))
+        })
     } else {
-      console.log(apiKey)
-      toast.error('Ya estás conectad@ a MELI')
+      fetch('https://100.27.84.204:8085/stocks', {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-userToken': localStorage.getItem('token'),
+        },
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error('Error al obtener stocks')
+          return response.json()
+        })
+        .then((data) => {
+          setStocks(data)
+        })
+        .catch((err) => console.error(err))
     }
   }, [])
 
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr)
+    if (isNaN(date)) return 'Fecha inválida'
+    return `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(
+      2,
+      '0',
+    )}-${date.getFullYear()}`
+  }
   return (
     <>
       <CCard className="mb-4">
         <CCardBody>
           <CRow>
-            <CCol sm={5}>
-              <h4 id="traffic" className="card-title mb-0">
-                Traffic
-              </h4>
-              <div className="small text-body-secondary">January - July 2023</div>
+            <CCol xs={6}>
+              <CCard className="mb-4">
+                <CCardHeader>Ventas en el último año</CCardHeader>
+                <CCardBody>
+                  {match ? (
+                    <CChartBar
+                      data={{
+                        labels: [
+                          'Enero',
+                          'Febrero',
+                          'Marzo',
+                          'Abril',
+                          'Mayo',
+                          'Junio',
+                          'Julio',
+                          'Agosto',
+                          'Setiembre',
+                          'Octubre',
+                          'Noviembre',
+                          'Diciembre',
+                        ],
+                        datasets: [
+                          {
+                            label: 'Ventas',
+                            backgroundColor: ['#ff6598ff', '#62beffff'],
+                            data: [70, 20, 12, 39, 10, 40, 39, 80, 40, 30, 50, 70, 40, 80],
+                          },
+                        ],
+                      }}
+                      labels="months"
+                    />
+                  ) : (
+                    <div className="text-center fw-bold text-danger">
+                      No estás conectado a Mercado Libre!
+                    </div>
+                  )}
+                </CCardBody>
+              </CCard>
             </CCol>
-            <CCol sm={7} className="d-none d-md-block">
-              <CButton color="primary" className="float-end">
-                <CIcon icon={cilCloudDownload} />
-              </CButton>
-              <CButtonGroup className="float-end me-3">
-                {['Day', 'Month', 'Year'].map((value) => (
-                  <CButton
-                    color="outline-secondary"
-                    key={value}
-                    className="mx-0"
-                    active={value === 'Month'}
-                  >
-                    {value}
-                  </CButton>
-                ))}
-              </CButtonGroup>
+            <CCol xs={6}>
+              <CCard className="mb-4">
+                <CCardHeader>Productos más vendidos en el último mes</CCardHeader>
+                <CCardBody>
+                  {match ? (
+                    <CChartBar
+                      data={{
+                        labels: ['Producto 1', 'Producto 2', 'Producto 3', 'Producto 4'],
+                        datasets: [
+                          {
+                            label: 'Cantidad',
+                            data: [23, 21, 16, 10],
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#08ffd2ff'],
+                            hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#08ffd2ff'],
+                          },
+                        ],
+                      }}
+                      labels="months"
+                    />
+                  ) : (
+                    <div className="text-center fw-bold text-danger">
+                      No estás conectado a Mercado Libre!
+                    </div>
+                  )}
+                </CCardBody>
+              </CCard>
+            </CCol>
+            <CCol xs={12}>
+              <CCard className="mb-4">
+                <CCardHeader>Listado {' de '} Stock </CCardHeader>
+                <CCardBody>
+                  {match ? (
+                    <CTable
+                      align="center"
+                      className="mb-4 border table-striped table-hover"
+                      responsive
+                    >
+                      <CTableHead className="text-nowrap">
+                        <CTableRow>
+                          <CTableHeaderCell className="fw-bold text-center">ID</CTableHeaderCell>
+                          <CTableHeaderCell className="fw-bold text-center">
+                            <CIcon icon={cilFactory} /> Proveedor
+                          </CTableHeaderCell>
+                          <CTableHeaderCell className="fw-bold text-center">
+                            <CIcon icon={cilUser} /> Producto
+                          </CTableHeaderCell>
+                          <CTableHeaderCell className="fw-bold text-center">
+                            <CIcon icon={cilImage} /> Foto
+                          </CTableHeaderCell>
+                          <CTableHeaderCell className="fw-bold text-center">
+                            Descripción
+                          </CTableHeaderCell>
+                          <CTableHeaderCell className="fw-bold text-center">
+                            <CIcon icon={cilStorage} /> Cantidad
+                          </CTableHeaderCell>
+                          <CTableHeaderCell className="fw-bold text-center">
+                            <CIcon icon={cilFolder} /> Precios
+                          </CTableHeaderCell>
+                        </CTableRow>
+                      </CTableHead>
+
+                      {stocks != null && (
+                        <CTableBody>
+                          {stocks.map((item, index) => (
+                            <CTableRow key={index} className="align-middle">
+                              <CTableDataCell className="text-center">{item.id}</CTableDataCell>
+
+                              <CTableDataCell className="text-center">
+                                {item.proveedor?.razonSocial ?? '-'}
+                              </CTableDataCell>
+
+                              <CTableDataCell className="text-center">
+                                {item.producto?.nombre ?? '-'}
+                              </CTableDataCell>
+
+                              <CTableDataCell className="text-center">
+                                <CAvatar size="md" src={item.producto?.urlFoto} />
+                              </CTableDataCell>
+
+                              <CTableDataCell className="text-center text-wrap">
+                                {item.producto?.descripcion ?? '-'}
+                              </CTableDataCell>
+
+                              <CTableDataCell className="text-center">
+                                {item.cantidad}
+                              </CTableDataCell>
+
+                              <CTableDataCell className="text-center">
+                                <CTable
+                                  align="center"
+                                  className="table-sm table-bordered mb-0 rounded"
+                                  responsive
+                                  hover
+                                >
+                                  <CTableHead>
+                                    <CTableRow>
+                                      <CTableHeaderCell className="text-center fw-semibold">
+                                        Moneda
+                                      </CTableHeaderCell>
+                                      <CTableHeaderCell className="text-center fw-semibold">
+                                        Valor
+                                      </CTableHeaderCell>
+                                      <CTableHeaderCell className="text-center fw-semibold">
+                                        Fecha
+                                      </CTableHeaderCell>
+                                    </CTableRow>
+                                  </CTableHead>
+                                  <CTableBody>
+                                    {item.producto?.precios?.map((precio, i) => (
+                                      <CTableRow key={i}>
+                                        <CTableDataCell className="text-center">
+                                          {precio.moneda}
+                                        </CTableDataCell>
+                                        <CTableDataCell className="text-center">
+                                          {precio.valor}
+                                        </CTableDataCell>
+                                        <CTableDataCell className="text-center">
+                                          {formatDate(precio.fecha)}
+                                        </CTableDataCell>
+                                      </CTableRow>
+                                    ))}
+                                  </CTableBody>
+                                </CTable>
+                              </CTableDataCell>
+                            </CTableRow>
+                          ))}
+                        </CTableBody>
+                      )}
+                    </CTable>
+                  ) : (
+                    <div className="text-center fw-bold text-danger">
+                      No estás conectado a Mercado Libre!
+                    </div>
+                  )}
+                </CCardBody>
+              </CCard>
             </CCol>
           </CRow>
-          <MainChart />
         </CCardBody>
-        <CCardFooter>
-          <CRow
-            xs={{ cols: 1, gutter: 4 }}
-            sm={{ cols: 2 }}
-            lg={{ cols: 4 }}
-            xl={{ cols: 5 }}
-            className="mb-2 text-center"
-          >
-            {progressExample.map((item, index, items) => (
-              <CCol
-                className={classNames({
-                  'd-none d-xl-block': index + 1 === items.length,
-                })}
-                key={index}
-              >
-                <div className="text-body-secondary">{item.title}</div>
-                <div className="fw-semibold text-truncate">
-                  {item.value} ({item.percent}%)
-                </div>
-                <CProgress thin className="mt-2" color={item.color} value={item.percent} />
-              </CCol>
-            ))}
-          </CRow>
-        </CCardFooter>
       </CCard>
-      <CRow>
-        <CCol xs>
-          <CCard className="mb-4">
-            <CCardHeader>Traffic {' & '} Sales</CCardHeader>
-            <CCardBody>
-              <CTable align="middle" className="mb-0 border" hover responsive>
-                <CTableHead className="text-nowrap">
-                  <CTableRow>
-                    <CTableHeaderCell className="bg-body-tertiary text-center">
-                      <CIcon icon={cilPeople} />
-                    </CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary">User</CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary text-center">
-                      Country
-                    </CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary">Usage</CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary text-center">
-                      Payment Method
-                    </CTableHeaderCell>
-                    <CTableHeaderCell className="bg-body-tertiary">Activity</CTableHeaderCell>
-                  </CTableRow>
-                </CTableHead>
-                <CTableBody>
-                  {tableExample.map((item, index) => (
-                    <CTableRow v-for="item in tableItems" key={index}>
-                      <CTableDataCell className="text-center">
-                        <CAvatar size="md" src={item.avatar.src} status={item.avatar.status} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div>{item.user.name}</div>
-                        <div className="small text-body-secondary text-nowrap">
-                          <span>{item.user.new ? 'New' : 'Recurring'}</span> | Registered:{' '}
-                          {item.user.registered}
-                        </div>
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <CIcon size="xl" icon={item.country.flag} title={item.country.name} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="d-flex justify-content-between text-nowrap">
-                          <div className="fw-semibold">{item.usage.value}%</div>
-                          <div className="ms-3">
-                            <small className="text-body-secondary">{item.usage.period}</small>
-                          </div>
-                        </div>
-                        <CProgress thin color={item.usage.color} value={item.usage.value} />
-                      </CTableDataCell>
-                      <CTableDataCell className="text-center">
-                        <CIcon size="xl" icon={item.payment.icon} />
-                      </CTableDataCell>
-                      <CTableDataCell>
-                        <div className="small text-body-secondary text-nowrap">Last login</div>
-                        <div className="fw-semibold text-nowrap">{item.activity}</div>
-                      </CTableDataCell>
-                    </CTableRow>
-                  ))}
-                </CTableBody>
-              </CTable>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
     </>
   )
 }

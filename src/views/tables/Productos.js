@@ -68,35 +68,13 @@ const url = window.location.href
 const match = url.match(/[?&]code=([^#&]+)/)
 
 const Productos = () => {
-  //   const progressExample = [
-  //     { title: 'Visits', value: '29.703 Users', percent: 40, color: 'success' },
-  //     { title: 'Unique', value: '24.093 Users', percent: 20, color: 'info' },
-  //     { title: 'Pageviews', value: '78.706 Views', percent: 60, color: 'warning' },
-  //     { title: 'New Users', value: '22.123 Users', percent: 80, color: 'danger' },
-  //     { title: 'Bounce Rate', value: 'Average Rate', percent: 40.15, color: 'primary' },
-  //   ]
+
 
   const [productos, setProductos] = useState([])
   const [precios, setPrecios] = useState([])
   const [caracteristicas, setCarac] = useState([])
   const navigate = useNavigate()
-  const tableExample = [
-    {
-      idMeli: 'MLU8327489327',
-      foto: { src: react },
-      nombre: 'Producto de Demo',
-      precio: '$700',
-      descripcion: 'Descripción del Producto',
-      proveedor: 'Ninguno',
-      categorias: [
-        {
-          nombre: 'Ejemplo',
-          descripcion: 'Categoria de ejemplo',
-        },
-      ],
-    },
-  ]
-
+ 
   useEffect(() => {
     const token = localStorage.getItem('token')
     const apiKey = localStorage.getItem('apiKey')
@@ -112,14 +90,14 @@ const Productos = () => {
     }
 
     if (apiKey != null) {
-      fetch('http://localhost:8085/productos', {
+      fetch('https://100.27.84.204:8085/productos', {
         headers: {
           'Content-Type': 'application/json',
           'X-userToken': localStorage.getItem('token'),
         },
       }).then((response) => {
         response.json().then((data) => {
-          console.log(data)
+
           setProductos(data)
         })
       })
@@ -151,7 +129,7 @@ const Productos = () => {
             <CCardBody>
               <CTable
                 align="center"
-                className="mb-4 border border-secondary table-striped table-hover table-dark"
+                className="mb-4 border table-striped table-hover"
                 responsive
               >
                 <CTableHead className="text-nowrap">
@@ -170,6 +148,8 @@ const Productos = () => {
                     <CTableHeaderCell className="fw-bold text-center">
                       <CIcon icon={cilFolder} />
                     </CTableHeaderCell>
+                    <CTableHeaderCell className="fw-bold text-center">Borrar</CTableHeaderCell>
+                    <CTableHeaderCell className="fw-bold text-center">Modificar</CTableHeaderCell>
                   </CTableRow>
                 </CTableHead>
 
@@ -188,7 +168,7 @@ const Productos = () => {
                         <CTableDataCell className="text-center">
                           <CTable
                             align="center"
-                            className="table-sm table-dark table-bordered mb-0 rounded"
+                            className="table-sm table-bordered mb-0 rounded"
                             responsive
                             hover
                           >
@@ -234,7 +214,7 @@ const Productos = () => {
                         <CTableDataCell className="text-center">
                           <CTable
                             align="center"
-                            className="table-sm table-dark table-bordered mb-0 rounded"
+                            className="table-sm table-bordered mb-0 rounded"
                             responsive
                             hover
                           >
@@ -272,30 +252,33 @@ const Productos = () => {
                         </CTableDataCell>
                         <CTableDataCell className="text-center">
                           <CButton
-                          color="danger"
-                          size="sm"
-                          onClick={() => {
-                            if (window.confirm("¿Estás seguro que querés eliminar este producto?")) {
-                                fetch("http://localhost:8085/productos", {
-                              // fetch("https://100.27.84.204:8085/productos/"+ item.id, {
-                                method: 'DELETE',
-                                headers: {
-                                  'Content-Type': 'application/json',
-                                  'X-userToken': localStorage.getItem('token'),
-                                },
-                                body: JSON.stringify(item),
-                              })
-                              .then((res) => {
-                                if (!res.ok) throw new Error("Error al eliminar")
-                                toast.success("Producto eliminado")
-                                setProductos(productos.filter(p => p.id !== item.id))
-                              })
-                              .catch(err => toast.error("No se pudo eliminar"))
-                            }
-                          }}
-                           >
-                          <CIcon icon={cilTrash}/>
-                        </CButton>
+                            color="danger"
+                            size="sm"
+                            onClick={() => {
+                              if (
+                                window.confirm('¿Estás seguro que querés eliminar este producto?')
+                              ) {
+                                fetch('https://100.27.84.204:8085/productos', {
+                                  // fetch("https://100.27.84.204:8085/productos/"+ item.id, {
+                                  method: 'DELETE',
+                                  headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-userToken': localStorage.getItem('token'),
+                                  },
+                                  body: JSON.stringify(item),
+                                })
+                                  .then((res) => {
+                                    if (!res.ok) throw new Error('Error al eliminar')
+                                    toast.success('Producto eliminado')
+                                    setProductos(productos.filter((p) => p.id !== item.id))
+                                  })
+                                  .catch((err) => toast.error('No se pudo eliminar'))
+                              }
+                            }}
+                          >
+                            <CIcon icon={cilTrash} />
+                                  
+                          </CButton>
                         </CTableDataCell>
                         <CTableDataCell className="text-center">
                           <CButton
